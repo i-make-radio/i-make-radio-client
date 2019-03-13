@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
-const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
+const VideoPlayer = props => {
   const videoPlayerRef = useRef(null)
   let rtcPublisher
   let initializeStream
@@ -41,6 +41,8 @@ const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
     //   console.log('connection closed', type, publisher, data)
     // })
     console.log(rtcPublisher)
+
+    return () => rtcPublisher.unpublish()
   }, [])
 
   const publishStream = () => {
