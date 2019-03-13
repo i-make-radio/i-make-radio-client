@@ -1,13 +1,16 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
+  const videoPlayerRef = useRef(null)
+  let rtcPublisher
+  let initializeStream
   useEffect(() => {
-    window.addEventListener('beforeunload', this.unPublish)
+    window.addEventListener('beforeunload', unPublish)
 
     const red5prosdk = window.red5prosdk
-    this.rtcPublisher = new red5prosdk.RTCPublisher()
-    var config = {
+    rtcPublisher = new red5prosdk.RTCPublisher()
+    const config = {
       protocol: 'ws',
       host: '35.182.68.158',
       port: 5080,
@@ -20,9 +23,9 @@ const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
       } // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
     }
 
-    this.initializeStream = this.rtcPublisher
+    initializeStream = rtcPublisher
       .init(config)
-      .then(res => console.log(res) || true)
+      .then(res => true)
       .catch(function(err) {
         console.error('Could not publish: ' + err)
         return false
@@ -37,31 +40,31 @@ const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
 
     //   console.log('connection closed', type, publisher, data)
     // })
-    console.log(this.rtcPublisher)
+    console.log(rtcPublisher)
   }, [])
 
   const publishStream = () => {
-    this.initializeStream &&
-      this.rtcPublisher
+    initializeStream &&
+      rtcPublisher
         .publish()
         .then(res => console.log('publishinng'))
         .catch(err => console.log(err))
   }
   const unPublish = () => {
-    this.rtcPublisher.unpublish()
+    rtcPublisher.unpublish()
   }
   return (
     <Fragment>
       <video
-        ref={this.videoPlayer}
+        ref={videoPlayerRef}
         id="red5pro-publisher"
         width="640"
         height="480"
         controls
         autoPlay={true}
       />
-      <button onClick={this.unPublish}>UnPublish</button>
-      <button onClick={this.publishStream}>publishStream</button>
+      <button onClick={unPublish}>UnPublish</button>
+      <button onClick={publishStream}>publishStream</button>
     </Fragment>
   )
 }

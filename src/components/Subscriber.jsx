@@ -51,8 +51,7 @@ class Subscriber extends Component {
       <div>
         <h1>Subscriber</h1>
         <video
-          // autoPlay
-          ref={this.videoPlayer}
+          // autogitis.videoPlayer}
           id="red5pro-subscriber"
           width="640"
           height="480"

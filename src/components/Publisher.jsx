@@ -11,9 +11,10 @@ class Publisher extends Component {
     this.videoPlayer = React.createRef
     this.state = { playlist: [] }
 
-    axios.get('http://10.10.213.235:8088').then(res => {
+    axios.get('http://localhost:8088/allSongs').then(res => {
+      console.log('response from GET')
       this.setState({
-        playlist: res
+        playlist: res.data
       })
     })
   }
