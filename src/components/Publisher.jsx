@@ -1,56 +1,34 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 
+import ChatBox from './ChatBox'
 import Playlist from './Playlist'
 import VideoPlayer from './VideoPlayer'
-class Publisher extends Component {
-  constructor() {
-    super()
-    this.videoPlayer = React.createRef
-    this.state = { playlist: [] }
 
+const Publisher = () => {
+  const [playlist, updatePlaylist] = useState([])
+  
+  useEffect(() => {
     axios.get('http://localhost:8088/allSongs').then(res => {
-      console.log('response from GET')
-      this.setState({
-        playlist: res.data
-      })
+      updatePlaylist(res.data)
+
     })
-  }
+  }, [])
 
-  componentDidMount() {}
+  return playlist.length ? (
+    <div>
+      <h1>Publisher</h1>
+      <VideoPlayer />
+      <Link to="/">Go Away</Link>
 
-  componentWillUnmount() {
-    alert('unmounting')
-    this.rtcPublisher.unpublish()
-  }
-
-  publishStream = () => {
-    this.initializeStream &&
-      this.rtcPublisher
-        .publish()
-        .then(res => console.log('publishinng'))
-        .catch(err => console.log(err))
-  }
-  unPublish = () => {
-    this.rtcPublisher.unpublish()
-  }
-  render() {
-    return this.state.playlist.length ? (
-      <div>
-        <h1>Publisher</h1>
-        <VideoPlayer />
-        <Link to="/">Go Away</Link>
-        <button onClick={this.unPublish}>UnPublish</button>
-        <button onClick={this.publishStream}>publishStream</button>
-
-        <Playlist />
-      </div>
-    ) : (
-      'loading'
-    )
-  }
+      <Playlist />
+      <ChatBox customNameId="paige" />
+    </div>
+  ) : (
+    'loading'
+  )
 }
 
 export default Publisher

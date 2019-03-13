@@ -16,7 +16,7 @@ const StaticPlaylist = [
     url: SongUrl
   },
   {
-    title: 'Too deep for the intro',
+    title: 'Planes',
     id: 2,
     url: SongUrl
   },
