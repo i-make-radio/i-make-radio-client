@@ -62,6 +62,7 @@ const VideoPlayer = ({ autoPlay = false, playerId, wrapper = 'div' }) => {
         height="480"
         controls
         autoPlay={true}
+        muted
       />
       <button onClick={unPublish}>UnPublish</button>
       <button onClick={publishStream}>publishStream</button>
