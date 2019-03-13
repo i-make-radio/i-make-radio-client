@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
-import ChatBox from './ChatBox'
-import Playlist from './Playlist'
+import Playlist from './Playlist/Playlist'
 import VideoPlayer from './VideoPlayer'
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
-  
-  useEffect(() => {
-    axios.get('http://localhost:8088/allSongs').then(res => {
-      updatePlaylist(res.data)
 
+  useEffect(() => {
+    axios.get('http://10.10.213.235:8088/allSongs').then(res => {
+      updatePlaylist(res.data)
     })
   }, [])
 
@@ -23,8 +21,7 @@ const Publisher = () => {
       <VideoPlayer />
       <Link to="/">Go Away</Link>
 
-      <Playlist />
-      <ChatBox customNameId="paige" />
+      <Playlist songs={playlist} />
     </div>
   ) : (
     'loading'
