@@ -59,7 +59,7 @@ const Publisher = () => {
 
           <div id="profile_section_divider" />
 
-          <Playlist songs={playlist} />
+          <Playlist songs={playlist} isPublisher />
         </div>
 
         <div id="right_column">

@@ -11,6 +11,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Subscriber} />
           <Route path="/stream" render={() => <Publisher />} />
+          <Route path="/viewer" render={() => <Subscriber />} />
         </Switch>
       </Router>
     )
