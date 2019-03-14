@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import socket from '../utils/socket'
 import './chatbox.css'
 
 const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
@@ -9,6 +10,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
 
   useEffect(() => {
     registerReceivedMessage(onMessageReceived)
+    return socket.unregisterReceivedMessage
   }, [])
 
   const onMessageReceived = newMessage => {

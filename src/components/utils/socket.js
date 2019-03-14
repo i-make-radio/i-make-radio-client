@@ -7,9 +7,16 @@ export default (function() {
     socket.on('new_message', onMessageReceived)
   }
 
-  //   function unregisterHandler() {
-  //     socket.off('message')
-  //   }
+  const unregisterReceivedMessage = () => {
+    socket.off('message')
+  }
+
+  const registerVolumeChanged = onVolumeChangeReceived => {
+    socket.on('volume_changed_subscriber', onVolumeChangeReceived)
+  }
+  const unregisterVolumeChanged = () => {
+    socket.off('volume_changed_subscriber')
+  }
 
   socket.on('error', function(err) {
     console.log('received socket error:')
@@ -39,10 +46,10 @@ export default (function() {
   //   function leave(chatroomName, cb) {
   //     socket.emit('leave', chatroomName, cb)
   //   }
-  //   function getChatrooms(cb) {
-  //     socket.emit('chatrooms', null, cb)
-  //   }
 
+  const changeStreamVolume = ({ streamVolume, musicVolume }) => {
+    socket.emit('volume_changed_publisher', { ...streamVolume, musicVolume })
+  }
   function message(message) {
     socket.emit('new_message', { message })
   }
@@ -57,8 +64,10 @@ export default (function() {
     // leave,
     message,
     registerReceivedMessage,
-    // getAvailableUsers,
-    // registerHandler,
+    unregisterReceivedMessage,
+    changeStreamVolume,
+    registerVolumeChanged,
+    unregisterVolumeChanged,
     changeUserName
   }
 })()

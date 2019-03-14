@@ -1,19 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useRef, useState, memo } from 'react'
+
 import IconButton from '@material-ui/core/IconButton'
 import PowerSettingIcon from '@material-ui/icons/PowerSettingsNew'
 import StopIcon from '@material-ui/icons/Stop'
-import liveiconUrl from './icon/LIVE.svg'
 import Slider from '@material-ui/lab/Slider'
+
+import liveiconUrl from './icon/LIVE.svg'
+import socket from './utils/socket'
 
 const red5prosdk = window.red5prosdk
 const rtcPublisher = new red5prosdk.RTCPublisher()
 let initializeStream
 
-const VideoPlayer = ({ updateStreamState, streamState }) => {
+const VideoPlayer = memo(({ updateStreamState, streamState }) => {
   const videoPlayerRef = useRef(null)
 
-  const [streamVolumn, setStreamVolumn] = useState(50)
+  const [streamVolume, setStreamVolume] = useState(0.25)
 
   useEffect(() => {
     console.log('rendering useEffect')
@@ -36,7 +38,7 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
     initializeStream = rtcPublisher
       .init(config)
       .then(res => true)
-      .catch(function(err) {
+      .catch(err => {
         console.error('Could not publish: ' + err)
         return false
       })
@@ -51,7 +53,7 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
     //   console.log('connection closed', type, publisher, data)
     // })
 
-    return () => console.log('unpublishing') || rtcPublisher.unpublish()
+    return () => rtcPublisher.unpublish()
   }, [])
 
   const publishStream = () => {
@@ -66,6 +68,34 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
       .unpublish()
       .then(res => updateStreamState(false))
       .catch(err => console.log(err))
+  }
+
+  const handleVolumnSlider = (event, value) => {
+    setStreamVolume(value)
+  }
+
+  const sendVolumeChange = () => {
+    const musicVolume = Math.abs(1 - streamVolume)
+
+    socket.changeStreamVolume({
+      streamVolume,
+      musicVolume
+    })
+  }
+
+  const check = (rawValue, props) => {
+    const { disabled, step } = props
+    if (rawValue === '10') {
+      rawValue = '1'
+    }
+    if (disabled) {
+      return null
+    }
+    if (step) {
+      return Math.round(rawValue / step) * step
+    }
+
+    return Number(Number(rawValue).toFixed(3))
   }
   return (
     <div className="right_column__row_flex__show_info_section">
@@ -102,7 +132,16 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
           </IconButton>
         </div>
 
-        <Slider aria-labelledby="label" onChange={() => {}} />
+        <Slider
+          aria-labelledby="label"
+          value={streamVolume}
+          min="0"
+          max="1"
+          step="0.25"
+          onChange={handleVolumnSlider}
+          onDragEnd={sendVolumeChange}
+          valueReducer={check}
+        />
 
         <button className="live_shows__pinned_comments_button">
           PINNED COMMENTS (12)
@@ -111,6 +150,6 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
       </div>
     </div>
   )
-}
+})
 
 export default VideoPlayer
