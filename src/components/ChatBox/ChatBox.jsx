@@ -11,9 +11,13 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
     registerReceivedMessage(onMessageReceived)
   }, [])
 
-  const onMessageReceived = data => {
-    messages.push(data)
-    updateMessages([...messages])
+  const onMessageReceived = newMessage => {
+    // messages.push(newMessage)
+    // NOTE(Alvaro): I've change this to work as expected,
+    // please ping me and I'll update you.
+    // I don't know how I didn't see this all straight.
+    // updateMessages([...messages, newMessage])
+    updateMessages(actualMessages => [...actualMessages, newMessage])
   }
 
   const chatboxContentJSX = messages.map((message, i) => (

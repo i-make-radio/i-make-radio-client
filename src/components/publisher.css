@@ -1,26 +1,26 @@
-#main_publisher {
+.main_publisher {
     background: #252431;
 }
 
-#two_column_container {
+.two_column_container {
     height: 100%;
     display: flex;
     justify-content: flex-start;
 }
 
-#left_column {
+.left_column {
     width: 550px;
     display: flex;
     flex-direction: column;
 }
 
-#right_column {
+.right_column {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-#left_column_profile_section {
+.left_column_profile_section {
     background: #282735;
     height: 120px;
     padding: 0px 30px 0px 30px;
@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-#profile_top_left_menu {
+.profile_top_left_menu {
     background: #ffffff;
     width: 46px;
     height: 46px;
@@ -36,12 +36,12 @@
     flex-shrink: 0;
 }
 
-#profile_empty_spacer {
+.profile_empty_spacer {
     height: 20px;
     width: 100%;
 }
 
-#profile_image {
+.profile_image {
     background: #444351;
     width: 28px;
     height: 28px;
@@ -49,11 +49,11 @@
     flex-shrink: 0;
 }
 
-#profile_title {
+.profile_title {
     margin-left: 8px;
 }
 
-#profile_section_divider {
+.profile_section_divider {
     background: #3d3d48;
     height: 3px;
 }
@@ -65,12 +65,12 @@
     margin: 0px 50px 0px 50px;
 }
 
-#video_player_container {
+.video_player_container {
     width: 448px;
     height: 252px;
 }
 
-#live_shows__column_flex {
+.live_shows__column_flex {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -78,25 +78,25 @@
     justify-content: space-between;
 }
 
-#live_shows__pinned_comments_button {
+.live_shows__pinned_comments_button {
     padding: 14px 60px 14px 60px;
     border-radius: 27px;
     border: 0px;
     background: linear-gradient(170.51deg, #FD15D7 -14.27%, #F2994A 113.86%);
 }
 
-#live_shows__bottom_spacer {
+.live_shows__bottom_spacer {
     height: 25px;
 }
 
-#chatbox_container {
+.chatbox_container {
     background: #282735;
     height: 100%;
 }
 
 /* Fonts */
 
-#profile_title {
+.profile_title {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -105,7 +105,7 @@
     color: #FFFFFF;
 }
 
-#live_shows__listeners_count {
+.live_shows__listeners_count {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -114,7 +114,7 @@
     color: #FFFFFF;
 }
 
-#live_shows__elasped_time {
+.live_shows__elasped_time {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -123,7 +123,7 @@
     color: #FFFFFF;
 }
 
-#live_shows__pinned_comments_button {
+.live_shows__pinned_comments_button {
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;

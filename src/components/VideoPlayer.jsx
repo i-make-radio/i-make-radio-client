@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import PowerSettingIcon from '@material-ui/icons/PowerSettingsNew'
 import StopIcon from '@material-ui/icons/Stop'
 import liveiconUrl from './icon/LIVE.svg'
+import Slider from '@material-ui/lab/Slider'
 
 const red5prosdk = window.red5prosdk
 const rtcPublisher = new red5prosdk.RTCPublisher()
@@ -11,6 +12,9 @@ let initializeStream
 
 const VideoPlayer = ({ updateStreamState, streamState }) => {
   const videoPlayerRef = useRef(null)
+
+  const [streamVolumn, setStreamVolumn] = useState(50)
+
   useEffect(() => {
     console.log('rendering useEffect')
     window.addEventListener('beforeunload', unPublishStream)
@@ -65,7 +69,7 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
   }
   return (
     <div className="right_column__row_flex__show_info_section">
-      <div id="video_player_container">
+      <div className="video_player_container">
         <video
           ref={videoPlayerRef}
           id="red5pro-publisher"
@@ -77,15 +81,15 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
         />
       </div>
 
-      <div id="live_shows__column_flex">
-        <p id="live_shows__listeners_count">726 listeners</p>
+      <div className="live_shows__column_flex">
+        <p className="live_shows__listeners_count">726 listeners</p>
         <div className="live-timer-container">
           <img
             src={liveiconUrl}
             style={{ visibility: streamState ? 'visible' : 'hidden' }}
           />
 
-          <p id="live_shows__elasped_time">3:24:48</p>
+          <p className="live_shows__elasped_time">3:24:48</p>
           <IconButton>
             {!streamState ? (
               <PowerSettingIcon
@@ -97,10 +101,13 @@ const VideoPlayer = ({ updateStreamState, streamState }) => {
             )}
           </IconButton>
         </div>
-        <button id="live_shows__pinned_comments_button">
+
+        <Slider aria-labelledby="label" onChange={() => {}} />
+
+        <button className="live_shows__pinned_comments_button">
           PINNED COMMENTS (12)
         </button>
-        <div id="live_shows__bottom_spacer" />
+        <div className="live_shows__bottom_spacer" />
       </div>
     </div>
   )

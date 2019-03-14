@@ -46,22 +46,22 @@ const Publisher = () => {
   }
 
   return playlist.length ? (
-    <div id="main_publisher">
-      <div id="two_column_container">
-        <div id="left_column">
-          <div id="left_column_profile_section">
-            <div id="profile_top_left_menu" />
-            <div id="profile_empty_spacer" />
-            <div id="profile_image" />
-            <p id="profile_title">Profile</p>
+    <div className="main_publisher">
+      <div className="two_column_container">
+        <div className="left_column">
+          <div className="left_column_profile_section">
+            <div className="profile_top_left_menu" />
+            <div className="profile_empty_spacer" />
+            <div className="profile_image" />
+            <p className="profile_title">Profile</p>
           </div>
 
-          <div id="profile_section_divider" />
+          <div className="profile_section_divider" />
 
           <Playlist songs={playlist} />
         </div>
 
-        <div id="right_column">
+        <div className="right_column">
           <VideoPlayer
             updateStreamState={updateStreamState}
             streamState={streamAlive}
@@ -80,3 +80,7 @@ const Publisher = () => {
 }
 
 export default Publisher
+
+const logFoo = ev => console.log(ev, 'foo')
+
+const Foo = () => <div onClick={logFoo} />
