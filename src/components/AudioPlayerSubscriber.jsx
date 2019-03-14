@@ -13,27 +13,28 @@ const AudioPlayerSubscriber = () => {
 
   useEffect(() => {
     axios.get('http://10.10.213.235:8080/currentSong').then(res => {
-      console.log("fetched current song", res.data.currentSong)
       setCurrentSong(res.data.currentSong)
     })
   }, [])
 
-  socket.on('startPlayingSubscriber', (data) => {
-    console.log("GOT FROM SUB startPlayingSubscriber", data)
+  socket.on('startPlayingSubscriber', data => {
     setCurrentSong(data.currentSong)
   })
 
   socket.on('stopPlayingSubscriber', () => {
     setCurrentSong(null)
-    console.log("GOT FROM SUB stopPlayingSubscriber")
   })
 
-  if (currentSong === null) {
-    console.log("rendering currentSong is NULL", currentSong)
-
-    return (<div className="playlist-container">
+  const seekToStartTime = () => {
+    const elapsedTime = new Date().getTime() / 1000 - currentSong.startTime
+    radioRef.current.seekTo(elapsedTime)
+  }
+  return (
+    <div className="playlist-container">
       <ReactPlayer
         playing={true}
+        url={currentSong ? currentSong.url : ''}
+        onStart={seekToStartTime}
         id={'radio-player-reciever'}
         controls={true}
         pip={true}
@@ -41,30 +42,8 @@ const AudioPlayerSubscriber = () => {
         height="124px"
         width="100%"
       />
-    </div>)
-  } else {
-    console.log("rendering currentSong is", currentSong)
-
-    return (
-      // *******************
-      // Todo implement SeekTo using currentSong.startTime. i.e.
-      // const elaspedTime = new Date().getTime() - currentSong.startTime
-      // *******************
-
-      <div className="playlist-container">
-        <ReactPlayer
-          playing={true}
-          url={currentSong.url}
-          id={'radio-player-reciever'}
-          controls={true}
-          pip={true}
-          ref={radioRef}
-          height="124px"
-          width="100%"
-        />
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default AudioPlayerSubscriber
