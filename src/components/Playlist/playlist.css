@@ -1,0 +1,48 @@
+.playlist-container {
+  background-color: #282735;
+  font-family: roboto;
+}
+
+.playlist-header {
+  display: flex;
+  padding: 29px 24px 15px 60px;
+  color: white;
+  justify-content: space-between;
+}
+.playlist-title {
+  font-size: 16px;
+  color: #fb33b8;
+}
+.song-row {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-family: roboto;
+  padding: 14px 24px;
+}
+.song-row:hover {
+  background: linear-gradient(172.58deg, #fd15d7 -14.27%, #f2994a 113.86%);
+}
+.song-id {
+  color: #f57d68;
+  font-size: 12px;
+  width: 50px;
+  text-align: center;
+}
+.song-duration {
+  width: 50px;
+  text-align: center;
+}
+
+.song-info {
+  flex: 1;
+  flex-shrink: 0;
+  padding: 0 20px;
+}
+
+.song-info > p {
+  margin: 3px 0;
+}
+.song-icon {
+  color: white;
+}
