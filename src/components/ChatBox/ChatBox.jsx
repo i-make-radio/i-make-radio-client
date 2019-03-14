@@ -2,13 +2,26 @@ import React, { useState, useRef } from 'react'
 import './chatbox.css'
 import io from 'socket.io-client'
 
-const socket = io.connect('localhost:8080')
+const socket = io.connect('http://10.10.213.235:8080')
 
 const ChatBox = (props) => {
   const [messages, updateMessages] = useState([])
 
   const chatBoxInputRef = useRef(null)
   const usernameBoxInputRef = useRef(null)
+
+  socket.on('startPlayingPublisher', (data) => {
+    console.log("GOT FROM SUB startPlayingPublisher", data)
+  })
+
+  socket.on('stopPlayingPublisher', (data) => {
+    console.log("GOT FROM SUB stopPlayingPublisher", data)
+  })
+
+  socket.on('resumePlayingPublisher', (data) => {
+    console.log("GOT FROM SUB resumePlayingPublisher", data)
+  })  
+
 
   socket.on('new_message', (data) => {
     const updatedList = [...messages, data]

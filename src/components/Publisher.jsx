@@ -12,7 +12,7 @@ const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
 
   useEffect(() => {
-    axios.get('http://10.10.213.235:8088/allSongs').then(res => {
+    axios.get('http://10.10.213.235:8080/allSongs').then(res => {
       updatePlaylist(res.data)
     })
   }, [])
@@ -32,6 +32,7 @@ const Publisher = () => {
           <div id='profile_section_divider'></div>
 
           <Playlist songs={playlist} />
+
         </div>
 
         <div id='right_column'>

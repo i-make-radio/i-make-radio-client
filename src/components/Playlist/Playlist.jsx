@@ -4,31 +4,26 @@ import io from 'socket.io-client'
 import ReactPlayer from 'react-player'
 
 import PlaylistCard from './PlaylistCard'
-const socket = io.connect('localhost:8080')
+const socket = io.connect('http://10.10.213.235:8080')
 
 const Playlist = ({ songs }) => {
   const radioRef = useRef(null)
 
-  const [currentSong, setCurrentSong] = useState(songs[0])
+  const [currentSong, setCurrentSong] = useState(songs[1])
   const [playState, setPlayState] = useState(false)
 
   const emitPlayOnSocket = () => {
     console.log('start songs', currentSong)
     const timeElapsed = radioRef.current.getCurrentTime()
     const data = { ...currentSong, ...{ timeElapsed } }
-    console.log('startPlayingPublisher:', data)
+    console.log('startPlayingPublisher', data)
     socket.emit('startPlayingPublisher', data)
   }
   const stop = () => {
-    const timeElapsed = radioRef.current.getCurrentTime()
-    const data = { ...currentSong, ...{ timeElapsed } }
-    console.log('stopPlayingPublisher:', data)
-    socket.emit('stopPlayingPublisher', data)
-  }
-  const resume = () => {
-    const timeElapsed = radioRef.current.getCurrentTime()
-    const data = { ...currentSong, ...{ timeElapsed } }
-    socket.emit('resumePlayingPublisher', data)
+    // const timeElapsed = radioRef.current.getCurrentTime()
+    // const data = { ...currentSong, ...{ timeElapsed } }
+    console.log('stopPlayingPublisher', currentSong.id)
+    socket.emit('stopPlayingPublisher', currentSong.id)
   }
 
   const volumeChange = () => {
@@ -36,8 +31,9 @@ const Playlist = ({ songs }) => {
   }
 
   const playNewSong = song => {
-    setCurrentSong(song)
     setPlayState(true)
+    setCurrentSong(song)
+    emitPlayOnSocket()
   }
 
   const pausePlayer = () => {

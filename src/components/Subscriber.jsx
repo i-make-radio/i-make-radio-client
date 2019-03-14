@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import AudioPlayerSubscriber from './AudioPlayerSubscriber';
 
 class Subscriber extends Component {
   constructor() {
@@ -55,6 +56,7 @@ class Subscriber extends Component {
           height="480"
           controls
         />
+        <AudioPlayerSubscriber />
       </div>
     )
   }
