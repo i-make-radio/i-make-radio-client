@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import Playlist from './Playlist/Playlist'
 import VideoPlayer from './VideoPlayer'
+import ChatBox from './ChatBox';
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
@@ -20,7 +21,7 @@ const Publisher = () => {
       <h1>Publisher</h1>
       <VideoPlayer />
       <Link to="/">Go Away</Link>
-
+      <ChatBox />
       <Playlist songs={playlist} />
     </div>
   ) : (
