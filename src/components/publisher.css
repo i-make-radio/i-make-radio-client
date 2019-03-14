@@ -132,3 +132,17 @@
     text-transform: uppercase;
     color: #FFFFFF;
 }
+
+.publisher-icon {
+    color: white;
+}
+
+.live-timer-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding-left: 40px;
+    box-sizing: border-box;
+}

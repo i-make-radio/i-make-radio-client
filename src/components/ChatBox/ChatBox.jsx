@@ -3,6 +3,7 @@ import './chatbox.css'
 
 const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
   const [messages, updateMessages] = useState([])
+
   const chatBoxInputRef = useRef(null)
   const usernameBoxInputRef = useRef(null)
 
@@ -12,7 +13,6 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
 
   const onMessageReceived = data => {
     messages.push(data)
-
     updateMessages([...messages])
   }
 

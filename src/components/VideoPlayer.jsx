@@ -1,15 +1,20 @@
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
+import IconButton from '@material-ui/core/IconButton'
+import PowerSettingIcon from '@material-ui/icons/PowerSettingsNew'
+import StopIcon from '@material-ui/icons/Stop'
+import liveiconUrl from './icon/LIVE.svg'
 
-const VideoPlayer = props => {
+const red5prosdk = window.red5prosdk
+const rtcPublisher = new red5prosdk.RTCPublisher()
+let initializeStream
+
+const VideoPlayer = ({ updateStreamState, streamState }) => {
   const videoPlayerRef = useRef(null)
-  let rtcPublisher
-  let initializeStream
   useEffect(() => {
-    window.addEventListener('beforeunload', unPublish)
+    console.log('rendering useEffect')
+    window.addEventListener('beforeunload', unPublishStream)
 
-    const red5prosdk = window.red5prosdk
-    rtcPublisher = new red5prosdk.RTCPublisher()
     const config = {
       protocol: 'ws',
       host: '35.182.68.158',
@@ -20,13 +25,14 @@ const VideoPlayer = props => {
         iceServers: [{ urls: 'stun:stun2.l.google.com:19302' }],
         iceCandidatePoolSize: 2,
         bundlePolicy: 'max-bundle'
-      } // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
+      }
+      // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
     }
 
     initializeStream = rtcPublisher
       .init(config)
       .then(res => true)
-      .catch(function (err) {
+      .catch(function(err) {
         console.error('Could not publish: ' + err)
         return false
       })
@@ -40,42 +46,63 @@ const VideoPlayer = props => {
 
     //   console.log('connection closed', type, publisher, data)
     // })
-    console.log(rtcPublisher)
 
-    return () => rtcPublisher.unpublish()
+    return () => console.log('unpublishing') || rtcPublisher.unpublish()
   }, [])
 
   const publishStream = () => {
     initializeStream &&
       rtcPublisher
         .publish()
-        .then(res => console.log('publishinng'))
+        .then(res => updateStreamState(true))
         .catch(err => console.log(err))
   }
-  const unPublish = () => {
-    rtcPublisher.unpublish()
+  const unPublishStream = () => {
+    rtcPublisher
+      .unpublish()
+      .then(res => updateStreamState(false))
+      .catch(err => console.log(err))
   }
   return (
-    <Fragment>
-      <div>
-
-        <button onClick={unPublish}>UnPublish</button>
-        <button onClick={publishStream}>publishStream</button>
-
-        <div>
-            <video
-              ref={videoPlayerRef}
-              id="red5pro-publisher"
-              controls
-              width="100%"
-              height="100%"
-              autoPlay={true}
-              muted
-            />
-        </div>
+    <div className="right_column__row_flex__show_info_section">
+      <div id="video_player_container">
+        <video
+          ref={videoPlayerRef}
+          id="red5pro-publisher"
+          controls
+          width="100%"
+          height="100%"
+          autoPlay={true}
+          muted
+        />
       </div>
 
-    </Fragment>
+      <div id="live_shows__column_flex">
+        <p id="live_shows__listeners_count">726 listeners</p>
+        <div className="live-timer-container">
+          <img
+            src={liveiconUrl}
+            style={{ visibility: streamState ? 'visible' : 'hidden' }}
+          />
+
+          <p id="live_shows__elasped_time">3:24:48</p>
+          <IconButton>
+            {!streamState ? (
+              <PowerSettingIcon
+                onClick={publishStream}
+                className="publisher-icon"
+              />
+            ) : (
+              <StopIcon onClick={unPublishStream} className="publisher-icon" />
+            )}
+          </IconButton>
+        </div>
+        <button id="live_shows__pinned_comments_button">
+          PINNED COMMENTS (12)
+        </button>
+        <div id="live_shows__bottom_spacer" />
+      </div>
+    </div>
   )
 }
 
