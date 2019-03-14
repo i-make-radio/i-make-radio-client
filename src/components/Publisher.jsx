@@ -11,7 +11,7 @@ import ChatBox from './ChatBox/ChatBox'
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
-  const [socketClient, updateSocketClient] = useState(socket())
+  const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
     axios.get('http://10.10.213.235:8080/allSongs').then(res => {
@@ -20,6 +20,7 @@ const Publisher = () => {
   }, [])
 
   const sendMessage = ({ e, chatbox }) => {
+    debugger
     e.preventDefault()
     const message = chatbox.current.value
 
@@ -32,13 +33,17 @@ const Publisher = () => {
     chatbox.current.focus()
   }
 
-  const changeUserName = ({ e, username }) => {
+  const changeUserName = ({ e, userRef }) => {
+    debugger
     e.preventDefault()
 
+    const username = userRef.current.value
     if (username.length == 0) {
       return
     }
     socketClient.changeUserName(username)
+    userRef.current.value = ''
+    userRef.current.focus()
   }
 
   return playlist.length ? (
@@ -58,7 +63,7 @@ const Publisher = () => {
         </div>
 
         <div id="right_column">
-          <div id="right_column__row_flex__show_info_section">
+          <div className="right_column__row_flex__show_info_section">
             <div id="video_player_container">
               <VideoPlayer />
             </div>
@@ -73,13 +78,11 @@ const Publisher = () => {
             </div>
           </div>
 
-          <div id="chatbox_container">
-            <ChatBox
-              registerReceivedMessage={socketClient.registerReceivedMessage}
-              sendMessage={sendMessage}
-              changeUserName={changeUserName}
-            />
-          </div>
+          <ChatBox
+            registerReceivedMessage={socketClient.registerReceivedMessage}
+            sendMessage={sendMessage}
+            changeUserName={changeUserName}
+          />
         </div>
       </div>
     </div>

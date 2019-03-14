@@ -1,9 +1,9 @@
 const io = require('socket.io-client')
 
-export default function() {
+export default (function() {
   const socket = io.connect('http://10.10.213.235:8080')
 
-  function registerReceivedMessage(onMessageReceived) {
+  const registerReceivedMessage = onMessageReceived => {
     socket.on('new_message', onMessageReceived)
   }
 
@@ -61,4 +61,4 @@ export default function() {
     // registerHandler,
     changeUserName
   }
-}
+})()
