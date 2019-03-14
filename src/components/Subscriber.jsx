@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const SongUrl =
-  'https://s3.amazonaws.com/i-make-radio-hackathon/02+-+Too+Deep+For+The+Intro.mp3'
 class Subscriber extends Component {
   constructor() {
     super()

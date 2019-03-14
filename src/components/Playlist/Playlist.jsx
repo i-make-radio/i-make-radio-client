@@ -69,6 +69,8 @@ const Playlist = ({ songs }) => {
         onEnded={stop}
         pip={true}
         ref={radioRef}
+        height="124px"
+        width="100%"
       />
     </div>
   )

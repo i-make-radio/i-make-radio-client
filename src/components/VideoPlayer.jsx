@@ -26,7 +26,7 @@ const VideoPlayer = props => {
     initializeStream = rtcPublisher
       .init(config)
       .then(res => true)
-      .catch(function(err) {
+      .catch(function (err) {
         console.error('Could not publish: ' + err)
         return false
       })
@@ -57,17 +57,24 @@ const VideoPlayer = props => {
   }
   return (
     <Fragment>
-      <video
-        ref={videoPlayerRef}
-        id="red5pro-publisher"
-        width="640"
-        height="480"
-        controls
-        autoPlay={true}
-        muted
-      />
-      <button onClick={unPublish}>UnPublish</button>
-      <button onClick={publishStream}>publishStream</button>
+      <div>
+
+        <button onClick={unPublish}>UnPublish</button>
+        <button onClick={publishStream}>publishStream</button>
+
+        <div>
+            <video
+              ref={videoPlayerRef}
+              id="red5pro-publisher"
+              controls
+              width="100%"
+              height="100%"
+              autoPlay={true}
+              muted
+            />
+        </div>
+      </div>
+
     </Fragment>
   )
 }

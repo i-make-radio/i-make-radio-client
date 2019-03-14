@@ -1,0 +1,139 @@
+/* Chatroom */
+
+#chatboxClass {
+    padding: 0px 30px 0px 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat_messages_container {
+    padding: 15px 0px 15px 0px;
+    height: 100%;
+    overflow: auto;
+}
+
+
+/* Messages */
+
+#messageContainer {
+    background: #f2994a;
+    width: 100%;
+    height: 100%;
+    margin: 15px 0px 15px 0px;
+}
+
+#messageSender {
+    margin: 0px 0px 5px 30px
+}
+
+#message {
+    padding: 30px 40px 30px 40px;
+    border-radius: 0px 40px 40px 40px;
+    width: max-content;
+    color: #FFFFFF;
+    background: #343348;
+}
+
+
+/* Input */
+
+input {
+    background: transparent;
+    border: 0px;
+}
+
+
+/* Message Input */
+
+#message_form {
+    display: flex;
+}
+
+#message_input_box {
+    width: 100%;
+    border: 2px solid #4F4E60;
+    background: #252432;
+    padding: 14px 30px 14px 30px;
+    border-radius: 36px 0px 0px 36px;
+}
+
+#send_message_button {
+    width: 170px;
+    border-radius: 0px 27px 0px 0px;
+    background: linear-gradient(164.87deg, #FD15D7 -14.27%, #F2994A 113.86%);
+    border: 0px
+}
+
+
+/* Username Input */
+
+#change_username_form {
+    display: flex;
+    margin: 10px 1px 10px 0px;
+}
+
+#username_input_box {
+    width: 100%;
+    padding: 14px 30px 14px 30px;
+    border: 2px solid #4F4E60;
+    background: #252432;
+    border-radius: 36px 0px 0px 36px;
+}
+
+#send_username_button {
+    width: 170px;
+    border-radius: 0px 27px 0px 0px;
+    padding: 12px 0px 12px 0px;
+    background: #4F4E60;
+    border: 0px
+}
+
+
+/* Fonts */
+
+#messageSender {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+#message,
+#message_input_box {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+#send_message_button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+#username_input_box {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+#send_username_button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 12px;
+    color: #FFFFFF;
+}
