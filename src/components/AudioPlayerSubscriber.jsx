@@ -19,7 +19,7 @@ const AudioPlayerSubscriber = () => {
   }, [])
 
   socket.on('startPlayingSubscriber', (data) => {
-    console.log("GOT FROM SUB startPlayingSubscriber", data)
+    console.log("GOT FROM SUB startPlayingSubscriber ", data)
     setCurrentSong(data.currentSong)
   })
 
@@ -28,23 +28,10 @@ const AudioPlayerSubscriber = () => {
     console.log("GOT FROM SUB stopPlayingSubscriber")
   })
 
-  if (currentSong === null) {
-    console.log("rendering currentSong is NULL", currentSong)
-
-    return (<div className="playlist-container">
-      <ReactPlayer
-        playing={true}
-        id={'radio-player-reciever'}
-        controls={true}
-        pip={true}
-        ref={radioRef}
-        height="124px"
-        width="100%"
-      />
-    </div>)
-  } else {
-    console.log("rendering currentSong is", currentSong)
-
+  const seekToStartTime = () => {
+    const elapsedTime = new Date().getTime()/1000 - currentSong.startTime
+    radioRef.current.seekTo(elapsedTime)
+  }
     return (
       // *******************
       // Todo implement SeekTo using currentSong.startTime. i.e.
@@ -54,7 +41,8 @@ const AudioPlayerSubscriber = () => {
       <div className="playlist-container">
         <ReactPlayer
           playing={true}
-          url={currentSong.url}
+          url={currentSong ? currentSong.url : ''}
+          onStart={seekToStartTime}
           id={'radio-player-reciever'}
           controls={true}
           pip={true}
@@ -64,7 +52,6 @@ const AudioPlayerSubscriber = () => {
         />
       </div>
     )
-  }
 }
 
 export default AudioPlayerSubscriber

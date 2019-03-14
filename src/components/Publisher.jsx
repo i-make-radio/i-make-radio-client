@@ -21,6 +21,7 @@ const Publisher = () => {
 
   const sendMessage = ({ e, chatbox }) => {
     e.preventDefault()
+
     const message = chatbox.current.value
 
     if (message.length == 0) {

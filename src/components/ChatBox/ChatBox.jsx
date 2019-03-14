@@ -11,14 +11,19 @@ const ChatBox = ({ changeUsername, sendMessage, registerReceivedMessage }) => {
   const usernameBoxInputRef = useRef(null)
 
   useEffect(() => {
+    console.log('---------------------------')
+    console.log('use effect called-----------')
+
+    const onMessageReceived = (data) => {
+      const updatedList = [...messages, data]
+      console.log("onMessageReceived Updated list --- OLD MESSAGES", messages)
+      console.log("onMessageReceived Updated list --- Updated list", updatedList)
+      updateMessages(updatedList)
+    }
+
     registerReceivedMessage(onMessageReceived)
   }, [])
 
-  const onMessageReceived = data => {
-    const updatedList = [...messages, data]
-    console.log('message received', messages, updatedList)
-    updateMessages(updatedList)
-  }
 
   // socket.on('startPlayingPublisher', (data) => {
   //   console.log("GOT FROM SUB startPlayingPublisher", data)
@@ -62,6 +67,8 @@ const ChatBox = ({ changeUsername, sendMessage, registerReceivedMessage }) => {
   //   socket.emit('change_username', { username: newUsername })
   // }
 
+  console.log('rendering updating messages', messages)
+
   const chatboxContentJSX = messages.map((message, i) => (
     <div id="messageContainer">
       <div id="messageSender" key={i + 's'}>
@@ -77,7 +84,7 @@ const ChatBox = ({ changeUsername, sendMessage, registerReceivedMessage }) => {
     <div id="chatboxClass">
       <div id="chat_messages_container">{chatboxContentJSX}</div>
 
-      <form id="message_form" onSubmit={sendMessage}>
+      <form id="message_form" onSubmit={e => sendMessage({ e, chatbox: chatBoxInputRef })}>
         <input
           id="message_input_box"
           autoComplete="off"
