@@ -9,12 +9,11 @@ import VideoPlayer from './VideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 import NameFormDialog from './Dialogs/NameFormDialog'
 
-
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
   const [currentSong, updateCurrentSong] = useState(null)
   const [playState, setPlayState] = useState(false)
-  const [socketClient, updateSocketClient] = useState(socket)
+  const [socketClient] = useState(socket)
   const [streamAlive, updateStreamState] = useState(false)
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const Publisher = () => {
     e.preventDefault()
     const message = chatbox.current.value
 
-    if (message.length == 0) {
+    if (message.length === 0) {
       return
     }
 
@@ -42,7 +41,7 @@ const Publisher = () => {
     e.preventDefault()
 
     const username = userRef.current.value
-    if (username.length == 0) {
+    if (username.length === 0) {
       return
     }
     socketClient.changeUserName(username)
@@ -66,7 +65,6 @@ const Publisher = () => {
 
           <Playlist
             songs={playlist}
-            playState
             isPublisher
             currentSong={currentSong}
             updateCurrentSong={updateCurrentSong}

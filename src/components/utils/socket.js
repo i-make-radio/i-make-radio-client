@@ -24,7 +24,6 @@ export default (function() {
     socket.off('volumeChangeSubscriber')
   }
 
-
   const registerOnStartPlaying = onStartPlaying => {
     socket.on('startPlayingSubscriber', onStartPlaying)
   }
@@ -32,7 +31,6 @@ export default (function() {
   const unregisterOnStartPlaying = () => {
     socket.off('startPlayingSubscriber')
   }
-
 
   const registerOnStopPlaying = onStopPlaying => {
     socket.on('stopPlayingSubscriber', onStopPlaying)
@@ -68,10 +66,16 @@ export default (function() {
     socket.emit('new_message', { message })
   }
 
-  function changeUserName(username) {
+  const changeUserName = username => {
     socket.emit('change_username', { username })
   }
 
+  const publisherEmitPlayOnSocket = data => {
+    socket.emit('startPlayingPublisher', data)
+  }
+  const publisherStopAudio = () => {
+    socket.emit('stopPlayingPublisher')
+  }
   return {
     message,
     registerReceivedMessage,
@@ -90,5 +94,7 @@ export default (function() {
     unregisterOnStartPlaying,
     registerOnStopPlaying,
     unregisterOnStopPlaying,
+    publisherStopAudio,
+    publisherEmitPlayOnSocket
   }
 })()
