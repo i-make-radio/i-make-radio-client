@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import liveiconUrl from './icon/LIVE.svg'
+import AudioPlayerSubscriber from './AudioPlayerSubscriber'
 
 import IconButton from '@material-ui/core/IconButton'
 import PowerSettingIcon from '@material-ui/icons/PowerSettingsNew'
+import socket from './utils/socket'
 
 let initializeStream
 const red5prosdk = window.red5prosdk
@@ -15,7 +17,6 @@ const SubscriberVideoPlayer = props => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', unsubscribe)
-
     const config = {
       protocol: 'ws',
       host: '35.182.68.158',
@@ -26,12 +27,13 @@ const SubscriberVideoPlayer = props => {
         iceServers: [{ urls: 'stun:stun2.l.google.com:19302' }],
         iceCandidatePoolSize: 2,
         bundlePolicy: 'max-bundle'
-      } // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
+      }
+      // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
     }
 
     initializeStream = RTCSubscriber.init(config)
       .then(res => subscribeStream())
-      .catch(function(err) {
+      .catch(err => {
         console.error('Could not subscribe: ' + err)
         return false
       })
@@ -45,9 +47,12 @@ const SubscriberVideoPlayer = props => {
 
     //   console.log('connection closed', type, publisher, data)
     // })
-    console.log(RTCSubscriber)
-
     return unsubscribe
+  }, [])
+
+  useEffect(() => {
+    socket.registerstreamVolumeChanged(onVolumeChangeReceived)
+    return socket.unregisterstreamVolumeChanged
   }, [])
 
   const subscribeStream = () => {
@@ -59,6 +64,12 @@ const SubscriberVideoPlayer = props => {
   const unsubscribe = () => {
     RTCSubscriber.unsubscribe()
   }
+
+  const onVolumeChangeReceived = ({ streamVolume, musicVolume }) => {
+    console.log(streamVolume, musicVolume)
+    videoPlayerRef.current.volume = streamVolume
+    // console.log(videoPlayerRef.current.volume)
+  }
   return (
     <div className="right_column__row_flex__show_info_section">
       <div className="video_player_container">
@@ -69,7 +80,6 @@ const SubscriberVideoPlayer = props => {
           width="100%"
           height="100%"
           autoPlay={true}
-          muted
         />
       </div>
       <div className="live_shows__column_flex">
@@ -86,6 +96,8 @@ const SubscriberVideoPlayer = props => {
         </div>
 
         <div className="live_shows__bottom_spacer" />
+
+        <AudioPlayerSubscriber />
       </div>
     </div>
   )

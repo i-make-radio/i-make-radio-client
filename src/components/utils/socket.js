@@ -17,23 +17,31 @@ export default (function() {
   const unregisterVolumeChanged = () => {
     socket.off('volume_changed_subscriber')
   }
+  const registerstreamVolumeChanged = onVolumeChangeReceived => {
+    socket.on('volume_changed_subscriber', onVolumeChangeReceived)
+  }
+  const unregisterstreamVolumeChanged = () => {
+    socket.off('volume_changed_subscriber')
+  }
 
   socket.on('error', function(err) {
-    console.log('received socket error:')
     console.log(err)
   })
 
-  socket.on('startPlayingPublisher', data => {
-    console.log('GOT FROM SUB startPlayingPublisher', data)
-  })
+  const registerPlayingSubscriber = cb => {
+    socket.on('startPlayingSubscriber', cb)
+  }
+  const unregisterPlayingSubscriber = () => {
+    socket.off('startPlayingSubscriber')
+  }
 
-  socket.on('stopPlayingPublisher', data => {
-    console.log('GOT FROM SUB stopPlayingPublisher', data)
-  })
+  const registerStopSubscriber = cb => {
+    socket.on('stopPlayingSubscriber', cb)
+  }
 
-  socket.on('resumePlayingPublisher', data => {
-    console.log('GOT FROM SUB resumePlayingPublisher', data)
-  })
+  const unregisterStopSubscriber = () => {
+    socket.off('stopPlayingSubscriber')
+  }
 
   //   function register(name, cb) {
   //     socket.emit('register', name, cb)
@@ -47,8 +55,8 @@ export default (function() {
   //     socket.emit('leave', chatroomName, cb)
   //   }
 
-  const changeStreamVolume = ({ streamVolume, musicVolume }) => {
-    socket.emit('volume_changed_publisher', { ...streamVolume, musicVolume })
+  const changeStreamVolume = data => {
+    socket.emit('volume_changed_publisher', data)
   }
   function message(message) {
     socket.emit('new_message', { message })
@@ -68,6 +76,12 @@ export default (function() {
     changeStreamVolume,
     registerVolumeChanged,
     unregisterVolumeChanged,
-    changeUserName
+    changeUserName,
+    registerPlayingSubscriber,
+    unregisterPlayingSubscriber,
+    registerStopSubscriber,
+    unregisterStopSubscriber,
+    registerstreamVolumeChanged,
+    unregisterstreamVolumeChanged
   }
 })()

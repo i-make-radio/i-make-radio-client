@@ -80,7 +80,3 @@ const Publisher = () => {
 }
 
 export default Publisher
-
-const logFoo = ev => console.log(ev, 'foo')
-
-const Foo = () => <div onClick={logFoo} />
