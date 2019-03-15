@@ -30,6 +30,7 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
   }
 
   const speechToText = () => {
+    console.log("speech to text")
     recognition.start()
   }
 
@@ -59,17 +60,16 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
         aria-relevant="all">
         {chatboxContentJSX}
       </div>
+       
+      <div className="speech_to_text_button_container">
+            <button className="speech_to_text_button" onClick={speechToText}>      </button>
+      </div>
+   
 
       <form
         id="message_form"
         onSubmit={e => sendMessage({ e, chatbox: chatBoxInputRef })}
       >
-
-        <div className="speech_to_text_button_container">
-            <button className="speech_to_text_button" onClick={speechToText}>      </button>
-        </div>
-       
-
         <input
           id="message_input_box"
           autoComplete="off"
@@ -82,6 +82,7 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
         <button id="send_message_button" type="submit">
           SEND
         </button>
+        
       </form>
 
     </div>

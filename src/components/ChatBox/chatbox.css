@@ -1,6 +1,7 @@
 /* Chatroom */
 
 .chatbox-container {
+    position: relative;
     background: #2c2b3b;
     padding: 0px 30px 0px 30px;
     height: 62vh;
@@ -87,8 +88,9 @@ input {
 }
 
 .speech_to_text_button_container {
-    height: 100%;
-    padding: 0px 20px 0px 0px;
+    position: absolute; 
+    bottom:20px; 
+    left: 20px;
 }
 
 .speech_to_text_button {
@@ -130,6 +132,10 @@ input {
     line-height: normal;
     font-size: 20px;
     color: #FFFFFF;
+}
+
+#message_input_box {
+margin-left: 50px;
 }
 
 #send_message_button {
