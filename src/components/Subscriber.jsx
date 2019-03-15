@@ -54,7 +54,7 @@ const Subscriber = () => {
   }
 
   return (
-    <div className="main_publisher">
+    <div className="main_publisher subscriber_container">
       <div className="two_column_container">
         <div className="left_column">
           <div className="left_column_profile_section">

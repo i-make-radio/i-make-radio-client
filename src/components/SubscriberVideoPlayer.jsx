@@ -90,7 +90,7 @@ const SubscriberVideoPlayer = props => {
           />
           <p className="live_shows__elasped_time">3:24:48</p>
           <IconButton>
-            <PowerSettingIcon className="publisher-icon" />}
+            <PowerSettingIcon className="publisher-icon" />
           </IconButton>
         </div>
 
