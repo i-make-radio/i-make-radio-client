@@ -64,6 +64,12 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
         id="message_form"
         onSubmit={e => sendMessage({ e, chatbox: chatBoxInputRef })}
       >
+
+        <div className="speech_to_text_button_container">
+            <button className="speech_to_text_button" onClick={speechToText}>      </button>
+        </div>
+       
+
         <input
           id="message_input_box"
           autoComplete="off"
@@ -72,7 +78,7 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
           ref={chatBoxInputRef}
           defaultValue={speechInput}
         />
-        <button onClick={speechToText}>SPEECH</button>
+        
         <button id="send_message_button" type="submit">
           SEND
         </button>

@@ -86,7 +86,33 @@ input {
     border: 0px
 }
 
+.speech_to_text_button_container {
+    height: 100%;
+    padding: 0px 20px 0px 0px;
+}
+
+.speech_to_text_button {
+    color: #ffffff;
+    background: #343348;
+    border: 0px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    /* margin: 0 auto; */
+
+    /* margin: 0px 20px 0px 20px; */
+}
+
 /* Fonts */
+
+.speech_to_text_button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 16px;
+}
 
 #messageSender {
     font-family: Roboto;
