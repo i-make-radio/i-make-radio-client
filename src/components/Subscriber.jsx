@@ -51,6 +51,7 @@ const Subscriber = () => {
   const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
+    console.log("in subscriber!!!!")
     axios.get('http://10.10.213.235:8080/playedSongs').then(res => {
       updatePlaylist(res.data)
     })
@@ -82,7 +83,7 @@ const Subscriber = () => {
     userRef.current.focus()
   }
 
-  return playlist.length ? (
+  return (
     <div id="main_publisher">
       <div id="two_column_container">
         <div id="left_column">
@@ -119,8 +120,6 @@ const Subscriber = () => {
         </div>
       </div>
     </div>
-  ) : (
-    'loading'
   )
 }
 

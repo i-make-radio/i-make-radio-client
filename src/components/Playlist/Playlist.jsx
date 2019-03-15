@@ -67,7 +67,7 @@ const [currentSong, setCurrentSong] = useState(songs[1])
       <div>{playListJSX}</div>
       <ReactPlayer
         playing={playState}
-        url={currentSong.url}
+        url={currentSong ? currentSong.url : ''}
         id={'radio-player'}
         controls={true}
         onPlay={emitPlayOnSocket}

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import ReactPlayer from 'react-player'
 
-var socket = io.connect('10.10.213.235:8080')
+var socket = io.connect('http://10.10.213.235:8080')
 
 const AudioPlayerSubscriber = () => {
   const radioRef = useRef(null)

@@ -1,15 +1,26 @@
-import React, { Fragment, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useRef, useState, memo } from 'react'
 
-const VideoPlayer = props => {
+import IconButton from '@material-ui/core/IconButton'
+import PowerSettingIcon from '@material-ui/icons/PowerSettingsNew'
+import StopIcon from '@material-ui/icons/Stop'
+import Slider from '@material-ui/lab/Slider'
+
+import liveiconUrl from './icon/LIVE.svg'
+import socket from './utils/socket'
+
+const red5prosdk = window.red5prosdk
+const rtcPublisher = new red5prosdk.RTCPublisher()
+let initializeStream
+
+const VideoPlayer = memo(({ updateStreamState, streamState }) => {
   const videoPlayerRef = useRef(null)
-  let rtcPublisher
-  let initializeStream
-  useEffect(() => {
-    window.addEventListener('beforeunload', unPublish)
 
-    const red5prosdk = window.red5prosdk
-    rtcPublisher = new red5prosdk.RTCPublisher()
+  const [streamVolume, setStreamVolume] = useState(0.25)
+
+  useEffect(() => {
+    console.log('rendering useEffect')
+    window.addEventListener('beforeunload', unPublishStream)
+
     const config = {
       protocol: 'ws',
       host: '35.182.68.158',
@@ -20,13 +31,14 @@ const VideoPlayer = props => {
         iceServers: [{ urls: 'stun:stun2.l.google.com:19302' }],
         iceCandidatePoolSize: 2,
         bundlePolicy: 'max-bundle'
-      } // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
+      }
+      // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
     }
 
     initializeStream = rtcPublisher
       .init(config)
       .then(res => true)
-      .catch(function (err) {
+      .catch(err => {
         console.error('Could not publish: ' + err)
         return false
       })
@@ -40,7 +52,6 @@ const VideoPlayer = props => {
 
     //   console.log('connection closed', type, publisher, data)
     // })
-    console.log(rtcPublisher)
 
     return () => rtcPublisher.unpublish()
   }, [])
@@ -49,34 +60,96 @@ const VideoPlayer = props => {
     initializeStream &&
       rtcPublisher
         .publish()
-        .then(res => console.log('publishinng'))
+        .then(res => updateStreamState(true))
         .catch(err => console.log(err))
   }
-  const unPublish = () => {
-    rtcPublisher.unpublish()
+  const unPublishStream = () => {
+    rtcPublisher
+      .unpublish()
+      .then(res => updateStreamState(false))
+      .catch(err => console.log(err))
+  }
+
+  const handleVolumnSlider = (event, value) => {
+    setStreamVolume(value)
+  }
+
+  const sendVolumeChange = () => {
+    const musicVolume = Math.abs(1 - streamVolume)
+
+    socket.changeStreamVolume({
+      streamVolume,
+      musicVolume
+    })
+  }
+
+  const check = (rawValue, props) => {
+    const { disabled, step } = props
+    if (rawValue === '10') {
+      rawValue = '1'
+    }
+    if (disabled) {
+      return null
+    }
+    if (step) {
+      return Math.round(rawValue / step) * step
+    }
+
+    return Number(Number(rawValue).toFixed(3))
   }
   return (
-    <Fragment>
-      <div>
-
-        <button onClick={unPublish}>UnPublish</button>
-        <button onClick={publishStream}>publishStream</button>
-
-        <div>
-            <video
-              ref={videoPlayerRef}
-              id="red5pro-publisher"
-              controls
-              width="100%"
-              height="100%"
-              autoPlay={true}
-              muted
-            />
-        </div>
+    <div className="right_column__row_flex__show_info_section">
+      <div className="video_player_container">
+        <video
+          ref={videoPlayerRef}
+          id="red5pro-publisher"
+          controls
+          width="100%"
+          height="100%"
+          autoPlay={true}
+          muted
+        />
       </div>
 
-    </Fragment>
+      <div className="live_shows__column_flex">
+        <p className="live_shows__listeners_count">726 listeners</p>
+        <div className="live-timer-container">
+          <img
+            src={liveiconUrl}
+            style={{ visibility: streamState ? 'visible' : 'hidden' }}
+          />
+
+          <p className="live_shows__elasped_time">3:24:48</p>
+          <IconButton>
+            {!streamState ? (
+              <PowerSettingIcon
+                onClick={publishStream}
+                className="publisher-icon"
+              />
+            ) : (
+              <StopIcon onClick={unPublishStream} className="publisher-icon" />
+            )}
+          </IconButton>
+        </div>
+
+        <Slider
+          aria-labelledby="label"
+          value={streamVolume}
+          min="0"
+          max="1"
+          step="0.25"
+          onChange={handleVolumnSlider}
+          onDragEnd={sendVolumeChange}
+          valueReducer={check}
+        />
+
+        <button className="live_shows__pinned_comments_button">
+          PINNED COMMENTS (12)
+        </button>
+        <div className="live_shows__bottom_spacer" />
+      </div>
+    </div>
   )
-}
+})
 
 export default VideoPlayer

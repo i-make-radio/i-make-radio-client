@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+
 import './publisher.css'
 
 import socket from './utils/socket'
@@ -12,6 +12,7 @@ import ChatBox from './ChatBox/ChatBox'
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
   const [socketClient, updateSocketClient] = useState(socket)
+  const [streamAlive, updateStreamState] = useState(false)
 
   useEffect(() => {
     axios.get('http://10.10.213.235:8080/allSongs').then(res => {
@@ -20,7 +21,6 @@ const Publisher = () => {
   }, [])
 
   const sendMessage = ({ e, chatbox }) => {
-    debugger
     e.preventDefault()
     const message = chatbox.current.value
 
@@ -34,7 +34,6 @@ const Publisher = () => {
   }
 
   const changeUserName = ({ e, userRef }) => {
-    debugger
     e.preventDefault()
 
     const username = userRef.current.value
@@ -47,37 +46,26 @@ const Publisher = () => {
   }
 
   return playlist.length ? (
-    <div id="main_publisher">
-      <div id="two_column_container">
-        <div id="left_column">
-          <div id="left_column_profile_section">
-            <div id="profile_top_left_menu" />
-            <div id="profile_empty_spacer" />
-            <div id="profile_image" />
-            <p id="profile_title">Profile</p>
+    <div className="main_publisher">
+      <div className="two_column_container">
+        <div className="left_column">
+          <div className="left_column_profile_section">
+            <div className="profile_top_left_menu" />
+            <div className="profile_empty_spacer" />
+            <div className="profile_image" />
+            <p className="profile_title">Profile</p>
           </div>
 
-          <div id="profile_section_divider" />
+          <div className="profile_section_divider" />
 
           <Playlist songs={playlist} isPublisher />
         </div>
 
-        <div id="right_column">
-          <div className="right_column__row_flex__show_info_section">
-            <div id="video_player_container">
-              <VideoPlayer />
-            </div>
-
-            <div id="live_shows__column_flex">
-              <p id="live_shows__listeners_count">726 listeners</p>
-              <p id="live_shows__elasped_time">3:24:48</p>
-              <button id="live_shows__pinned_comments_button">
-                PINNED COMMENTS (12)
-              </button>
-              <div id="live_shows__bottom_spacer" />
-            </div>
-          </div>
-
+        <div className="right_column">
+          <VideoPlayer
+            updateStreamState={updateStreamState}
+            streamState={streamAlive}
+          />
           <ChatBox
             registerReceivedMessage={socketClient.registerReceivedMessage}
             sendMessage={sendMessage}
@@ -92,3 +80,7 @@ const Publisher = () => {
 }
 
 export default Publisher
+
+const logFoo = ev => console.log(ev, 'foo')
+
+const Foo = () => <div onClick={logFoo} />
