@@ -135,17 +135,21 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
             )}
           </IconButton>
         </div>
-
-        <Slider
-          aria-labelledby="label"
-          value={streamVolume}
-          min={0}
-          max={1}
-          step={0.25}
-          onChange={handleVolumeSlider}
-          onDragEnd={sendVolumeChange}
-          valueReducer={check}
-        />
+        <div className="slider-container">
+          <span className="slider-label">Music</span>
+          <Slider
+            className="slider"
+            aria-labelledby="label"
+            value={streamVolume}
+            min={0}
+            max={1}
+            step={0.25}
+            onChange={handleVolumeSlider}
+            onDragEnd={sendVolumeChange}
+            valueReducer={check}
+          />
+          <span className="slider-label">Voice</span>
+        </div>
 
         <button className="live_shows__pinned_comments_button">
           PINNED COMMENTS (12)

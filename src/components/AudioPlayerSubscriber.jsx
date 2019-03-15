@@ -10,7 +10,7 @@ const AudioPlayerSubscriber = () => {
   const [currentSong, setCurrentSong] = useState(null)
   const [radioVolume, setRadioVolume] = useState(0.2)
   useEffect(() => {
-    axios.get('http://10.10.213.235:8080/currentSong').then(res => {
+    axios.get('http://10.10.210.12:8080/currentSong').then(res => {
       setCurrentSong(res.data.currentSong)
     })
   }, [])

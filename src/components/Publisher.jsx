@@ -17,7 +17,7 @@ const Publisher = () => {
   const [streamAlive, updateStreamState] = useState(false)
 
   useEffect(() => {
-    axios.get('http://10.10.213.235:8080/allSongs').then(res => {
+    axios.get('http://10.10.210.12:8080/allSongs').then(res => {
       updatePlaylist(res.data)
       updateCurrentSong(res.data[1])
     })
@@ -62,14 +62,15 @@ const Publisher = () => {
 
           <div className="profile_section_divider" />
 
-          <Playlist songs={playlist} 
-          playState
-          isPublisher 
-          currentSong={currentSong} 
-          updateCurrentSong={updateCurrentSong}
-          playState={playState}
-          setPlayState={setPlayState}/>
-
+          <Playlist
+            songs={playlist}
+            playState
+            isPublisher
+            currentSong={currentSong}
+            updateCurrentSong={updateCurrentSong}
+            playState={playState}
+            setPlayState={setPlayState}
+          />
         </div>
 
         <div className="right_column">

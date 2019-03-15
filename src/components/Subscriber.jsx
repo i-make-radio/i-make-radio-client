@@ -13,7 +13,7 @@ const Subscriber = () => {
   const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
-    axios.get('http://10.10.213.235:8080/currentSong').then(res => {
+    axios.get('http://10.10.210.12:8080/currentSong').then(res => {
       setCurrentSong(res.data.currentSong)
       updatePlaylist(res.data.otherSongs)
     })
