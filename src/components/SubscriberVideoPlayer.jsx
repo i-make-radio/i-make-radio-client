@@ -54,11 +54,12 @@ const SubscriberVideoPlayer = props => {
     return socket.unregisterstreamVolumeChanged
   }, [])
 
-  const subscribeStream = () => {
-    initializeStream &&
-      RTCSubscriber.subscribe()
-        .then(res => updateStreamState(true))
-        .catch(err => console.log(err))
+  const subscribeStream = res => {
+    // console.log('subscrobomg', RTCSubscriber)
+    // initializeStream &&
+    RTCSubscriber.subscribe()
+      .then(res => console.log('subscribing') || updateStreamState(true))
+      .catch(err => console.log(err))
   }
   const unsubscribe = () => {
     RTCSubscriber.unsubscribe()

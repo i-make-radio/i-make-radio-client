@@ -64,7 +64,6 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
   }
   const unPublishStream = e => {
     e.preventDefault()
-    // socket.emit('stopPlayingPublisher')
     rtcPublisher
       .unpublish()
       .then(res => updateStreamState(false))

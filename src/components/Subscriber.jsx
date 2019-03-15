@@ -5,7 +5,6 @@ import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
 import SubscriberVideoPlayer from './SubscriberVideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
-import SubscriberSplash from './SplashScreen/SubscriberSplash'
 
 const Subscriber = () => {
   const [currentSong, setCurrentSong] = useState(null)
