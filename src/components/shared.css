@@ -100,9 +100,15 @@
     height: 100%;
 }
 
+.profile-name-button {
+    color: rgb(255, 255, 255);
+    background: transparent;
+    border: 0px;
+}
+
 /* Fonts */
 
-.profile_title {
+.profile-name-button {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -206,8 +212,4 @@
     color: rgba(255, 255, 255, 0.72);
     
     opacity: 0.75;
-}
-
-.profile-name-button {
-    text-emphasis-color: #FD15D7;
 }

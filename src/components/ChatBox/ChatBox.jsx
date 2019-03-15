@@ -7,11 +7,10 @@ var recognition = new (window.SpeechRecognition ||
 recognition.lang = 'en-US'
 recognition.continous = true
 
-const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
+const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
   const [messages, updateMessages] = useState([])
   const [speechInput, updateSpeechInput] = useState('')
   const chatBoxInputRef = useRef(null)
-  const usernameBoxInputRef = useRef(null)
 
   useEffect(() => {
     registerReceivedMessage(onMessageReceived)
@@ -71,7 +70,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
           type="text"
           aria-label="message input"
           ref={chatBoxInputRef}
-          value={speechInput}
+          defaultValue={speechInput}
         />
         <button onClick={speechToText}>SPEECH</button>
         <button id="send_message_button" type="submit">
@@ -79,21 +78,6 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
         </button>
       </form>
 
-      <form
-        id="change_username_form"
-        onSubmit={e => changeUserName({ e, userRef: usernameBoxInputRef })}
-      >
-        <input
-          id="username_input_box"
-          autoComplete="off"
-          type="text"
-          aria-label="username input"
-          ref={usernameBoxInputRef}
-        />
-        <button id="send_username_button" type="submit">
-          CHANGE USERNAME
-        </button>
-      </form>
     </div>
   )
 }

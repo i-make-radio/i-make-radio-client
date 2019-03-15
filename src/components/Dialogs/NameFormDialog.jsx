@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,27 +6,34 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import socket from '../utils/socket'
+import { debug } from "util";
 
-const NameFormDialog = ({handleClose, handleClickOpen, changeUserName}) => {
+const NameFormDialog = ({ changeUserName, defaultUsername }) => {
   const [open, setOpen] = useState(false)
 
-  handleClickOpen = () => {
+  const [userName, updateUserName] = useState(defaultUsername)
+
+  const handleClickOpen = () => {
     setOpen(true)
   };
 
-  handleClose = () => {
+  const handleClose = (e) => {
     setOpen(false)
+    changeUserName(userName)
   };
+
+  const handleChange = e => {
+    const userName = e.target.value;
+    updateUserName(userName)
+  }
 
   return (
     <div>
-      <Button className="profile-name-button"
-        type='light'
-        color='#ffffff'
+      <button className="profile-name-button"
         onClick={setOpen}
       >
-        Profile
-        </Button>
+        {defaultUsername}
+      </button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -42,6 +49,9 @@ const NameFormDialog = ({handleClose, handleClickOpen, changeUserName}) => {
             id="name"
             type="text"
             fullWidth
+            value={userName}
+            onChange={handleChange}
+            autoComplete="nope"
           />
         </DialogContent>
         <DialogActions>
