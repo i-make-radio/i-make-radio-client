@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
-// import io from 'socket.io-client'
 import socket from '../utils/socket'
 import ReactPlayer from 'react-player'
 
 import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
-// const socket = io.connect('http://10.10.210.12:8080')
 
 const Playlist = ({
   currentSong,
@@ -21,7 +19,6 @@ const Playlist = ({
     const timeElapsed = radioRef.current.getCurrentTime()
     const data = { ...currentSong, ...{ timeElapsed } }
     socket.publisherEmitPlayOnSocket(data)
-    // socket.emit('startPlayingPublisher', data)
   }
 
   const stop = () => {
