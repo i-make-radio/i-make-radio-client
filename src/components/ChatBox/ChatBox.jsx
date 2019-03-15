@@ -23,7 +23,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
   }
 
   const chatboxContentJSX = messages.map((message, i) => (
-    <div id="messageContainer">
+    <div id="messageContainer" aria-label={''.concat(message.username, ' said ', message.message)} aria-atomic="true">
       <div id="messageSender" key={i + 's'}>
         {message.username}{' '}
       </div>
@@ -35,7 +35,13 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
 
   return (
     <div className="chatbox-container">
-      <div id="chat_messages_container">{chatboxContentJSX}</div>
+
+      <div id="chat_messages_container"
+        aria-live="polite"
+        aria-atomic="false"
+        aria-relevant="all">
+        {chatboxContentJSX}
+      </div>
 
       <form
         id="message_form"
@@ -45,6 +51,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
           id="message_input_box"
           autoComplete="off"
           type="text"
+          aria-label="message input"
           ref={chatBoxInputRef}
         />
         <button id="send_message_button" type="submit">
@@ -60,6 +67,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
           id="username_input_box"
           autoComplete="off"
           type="text"
+          aria-label="username input"
           ref={usernameBoxInputRef}
         />
         <button id="send_username_button" type="submit">
