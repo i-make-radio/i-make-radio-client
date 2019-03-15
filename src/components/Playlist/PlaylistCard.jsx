@@ -14,7 +14,7 @@ const PlaylistCard = ({
   pausePlayer,
   currentSong
 }) => {
-  const isSongPlaying = () => !!currentSong && currentSong.id == song.id && isPlaying
+  const isSongPlaying = () => !!currentSong && currentSong.id == id && isPlaying
 
   const formatDuration = time => {
     const minutes = Math.floor(time / 60)
@@ -22,6 +22,7 @@ const PlaylistCard = ({
 
     return `${minutes}:${seconds}`
   }
+
   console.log('is song playing ', name, artist, isSongPlaying())
 
   return (

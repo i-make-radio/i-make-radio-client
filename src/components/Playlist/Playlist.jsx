@@ -8,9 +8,8 @@ import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
 const socket = io.connect('http://10.10.213.235:8080')
 const Playlist = ({currentSong, songs, isPublisher, updateCurrentSong, playState, setPlayState}) => {
-const radioRef = useRef(null)
-const [currentSong, setCurrentSong] = useState(songs[1])
-const [playState, setPlayState] = useState(false)
+
+  const radioRef = useRef(null)
 
   const emitPlayOnSocket = () => {
     const timeElapsed = radioRef.current.getCurrentTime()

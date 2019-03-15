@@ -100,7 +100,7 @@ export default (function() {
     registerStopSubscriber,
     unregisterStopSubscriber,
     registerstreamVolumeChanged,
-    unregisterstreamVolumeChanged
+    unregisterstreamVolumeChanged,
     registerOnStartPlaying,
     unregisterOnStartPlaying,
     registerOnStopPlaying,
