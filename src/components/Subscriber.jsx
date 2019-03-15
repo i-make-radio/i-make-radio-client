@@ -12,7 +12,7 @@ const Subscriber = () => {
   const [currentSong, setCurrentSong] = useState(null)
   const [playlist, updatePlaylist] = useState([])
   const [socketClient, updateSocketClient] = useState(socket)
-  const [userName, updateUserName] = useState('Anonymous')
+  const [userName, updateUserName] = useState('Profile')
 
   useEffect(() => {
     axios.get('http://10.10.210.12:8080/currentSong').then(res => {
