@@ -8,6 +8,7 @@ import Playlist from './Playlist/Playlist'
 import VideoPlayer from './VideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 import NameFormDialog from './Dialogs/NameFormDialog'
+import { debug } from 'util';
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
@@ -15,6 +16,7 @@ const Publisher = () => {
   const [playState, setPlayState] = useState(false)
   const [socketClient] = useState(socket)
   const [streamAlive, updateStreamState] = useState(false)
+  const [userName, updateUserName] = useState('Profile')
 
   useEffect(() => {
     axios.get('http://10.10.210.12:8080/allSongs').then(res => {
@@ -37,16 +39,12 @@ const Publisher = () => {
     chatbox.current.focus()
   }
 
-  const changeUserName = ({ e, userRef }) => {
-    e.preventDefault()
-
-    const username = userRef.current.value
-    if (username.length === 0) {
+  const changeUserName = (newUserName) => {
+    if (newUserName.length == 0) {
       return
     }
-    socketClient.changeUserName(username)
-    userRef.current.value = ''
-    userRef.current.focus()
+    socketClient.changeUserName(newUserName)
+    updateUserName(newUserName)
   }
 
   return playlist.length ? (
@@ -57,8 +55,10 @@ const Publisher = () => {
             <div className="profile_top_left_menu" />
             <div className="profile_empty_spacer" />
             <div className="profile_image" />
-            {/* <p className="profile_title">Profile</p> */}
-            <NameFormDialog className="profile-name-button"/>
+            <NameFormDialog 
+            className="profile_title"
+            changeUserName={changeUserName}
+            defaultUsername={userName}/>
           </div>
 
           <div className="profile_section_divider" />

@@ -5,11 +5,13 @@ import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
 import SubscriberVideoPlayer from './SubscriberVideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
+import NameFormDialog from './Dialogs/NameFormDialog'
 
 const Subscriber = () => {
   const [currentSong, setCurrentSong] = useState(null)
   const [playlist, updatePlaylist] = useState([])
-  const [socketClient] = useState(socket)
+  const [socketClient, updateSocketClient] = useState(socket)
+  const [userName, updateUserName] = useState('Profile')
 
   useEffect(() => {
     axios.get('http://10.10.210.12:8080/currentSong').then(res => {
@@ -41,16 +43,12 @@ const Subscriber = () => {
     chatbox.current.focus()
   }
 
-  const changeUserName = ({ e, userRef }) => {
-    e.preventDefault()
-
-    const username = userRef.current.value
-    if (username.length === 0) {
+  const changeUserName = (newUserName) => {
+    if (newUserName.length == 0) {
       return
     }
-    socketClient.changeUserName(username)
-    userRef.current.value = ''
-    userRef.current.focus()
+    socketClient.changeUserName(newUserName)
+    updateUserName(newUserName)
   }
 
   return (
@@ -61,7 +59,10 @@ const Subscriber = () => {
             <div className="profile_top_left_menu" />
             <div className="profile_empty_spacer" />
             <div className="profile_image" />
-            <p className="profile_title">Profile</p>
+             <NameFormDialog 
+            className="profile_title"
+            changeUserName={changeUserName}
+            defaultUsername={userName}/>
           </div>
 
           <div className="profile_section_divider" />
