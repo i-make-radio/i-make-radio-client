@@ -68,7 +68,7 @@ const SubscriberVideoPlayer = props => {
   const onVolumeChangeReceived = ({ streamVolume, musicVolume }) => {
     console.log(streamVolume, musicVolume)
     videoPlayerRef.current.volume = streamVolume
-    // console.log(videoPlayerRef.current.volume)
+    console.log(videoPlayerRef.current.volume)
   }
   return (
     <div className="right_column__row_flex__show_info_section">

@@ -2,9 +2,14 @@ import React, { useState, useRef, useEffect } from 'react'
 import socket from '../utils/socket'
 import './chatbox.css'
 
+var recognition = new (window.SpeechRecognition ||
+  window.webkitSpeechRecognition)()
+recognition.lang = 'en-US'
+recognition.continous = true
+
 const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
   const [messages, updateMessages] = useState([])
-
+  const [speechInput, updateSpeechInput] = useState('')
   const chatBoxInputRef = useRef(null)
   const usernameBoxInputRef = useRef(null)
 
@@ -20,6 +25,19 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
     // I don't know how I didn't see this all straight.
     // updateMessages([...messages, newMessage])
     updateMessages(actualMessages => [...actualMessages, newMessage])
+
+    var element = document.getElementById('chat_messages_container')
+    element.scrollTop = element.scrollHeight
+  }
+
+  const speechToText = () => {
+    recognition.start()
+  }
+
+  recognition.onresult = function(e) {
+    const result = e.results[0][0].transcript
+    updateSpeechInput(result)
+    sendMessage({ e, chatbox: chatBoxInputRef, updateSpeechInput })
   }
 
   const chatboxContentJSX = messages.map((message, i) => (
@@ -53,7 +71,9 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
           type="text"
           aria-label="message input"
           ref={chatBoxInputRef}
+          value={speechInput}
         />
+        <button onClick={speechToText}>SPEECH</button>
         <button id="send_message_button" type="submit">
           SEND
         </button>

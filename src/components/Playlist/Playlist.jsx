@@ -6,9 +6,15 @@ import ReactPlayer from 'react-player'
 
 import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
-const socket = io.connect('http://10.10.213.235:8080')
-const Playlist = ({currentSong, songs, isPublisher, updateCurrentSong, playState, setPlayState}) => {
-
+const socket = io.connect('http://10.10.210.12:8080')
+const Playlist = ({
+  currentSong,
+  songs,
+  isPublisher,
+  updateCurrentSong,
+  playState,
+  setPlayState
+}) => {
   const radioRef = useRef(null)
 
   const emitPlayOnSocket = () => {
@@ -39,22 +45,23 @@ const Playlist = ({currentSong, songs, isPublisher, updateCurrentSong, playState
     setPlayState(false)
   }
 
-  const playListJSX = songs.map(song => (
-    isPublisher ?
-    <PlaylistCard
-      currentSong={currentSong}
-      song={song}
-      isPlaying={playState}
-      playNewSong={playNewSong}
-      pausePlayer={pausePlayer}
-    />
-    : 
-    <SubscriberPlaylistCard
-    currentSong={currentSong}
-    song={song}
-    isPlaying={playState}
-  />
-  ))
+  const playListJSX = songs.map(song =>
+    isPublisher ? (
+      <PlaylistCard
+        currentSong={currentSong}
+        song={song}
+        isPlaying={playState}
+        playNewSong={playNewSong}
+        pausePlayer={pausePlayer}
+      />
+    ) : (
+      <SubscriberPlaylistCard
+        currentSong={currentSong}
+        song={song}
+        isPlaying={playState}
+      />
+    )
+  )
   return (
     <div className="playlist-container">
       <div className="playlist-header">

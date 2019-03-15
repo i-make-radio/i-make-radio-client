@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import './shared.css'
@@ -15,14 +14,12 @@ const Subscriber = () => {
 
   useEffect(() => {
     axios.get('http://10.10.213.235:8080/currentSong').then(res => {
-      // debugger
       setCurrentSong(res.data.currentSong)
       updatePlaylist(res.data.otherSongs)
     })
   }, [])
 
   socket.registerOnStartPlaying(data => {
-    // debugger
     setCurrentSong(data.currentSong)
     updatePlaylist(data.otherSongs)
   })
@@ -31,7 +28,7 @@ const Subscriber = () => {
     setCurrentSong(null)
   })
 
-  const sendMessage = ({ e, chatbox }) => {
+  const sendMessage = ({ e, chatbox, updateSpeechInput = () => {} }) => {
     e.preventDefault()
     const message = chatbox.current.value
 
@@ -41,6 +38,7 @@ const Subscriber = () => {
 
     socketClient.message(message)
     chatbox.current.value = ''
+    updateSpeechInput('')
     chatbox.current.focus()
   }
 
@@ -69,7 +67,12 @@ const Subscriber = () => {
 
           <div className="profile_section_divider" />
 
-          <Playlist songs={playlist} isPublisher={false} currentSong={currentSong} playState={!!currentSong}/>
+          <Playlist
+            songs={playlist}
+            isPublisher={false}
+            currentSong={currentSong}
+            playState={!!currentSong}
+          />
         </div>
 
         <div className="right_column">
