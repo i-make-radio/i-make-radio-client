@@ -18,7 +18,6 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
   const [streamVolume, setStreamVolume] = useState(0.25)
 
   useEffect(() => {
-    console.log('rendering useEffect')
     window.addEventListener('beforeunload', unPublishStream)
 
     const config = {
