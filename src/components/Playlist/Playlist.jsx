@@ -7,10 +7,10 @@ import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
 const socket = io.connect('http://10.10.213.235:8080')
 
-const Playlist = ({songs, isPublisher = false}) => {
+const Playlist = ({ songs, isPublisher = false }) => {
   const radioRef = useRef(null)
 
-const [currentSong, setCurrentSong] = useState(songs[1])
+  const [currentSong, setCurrentSong] = useState(songs[1])
   const [playState, setPlayState] = useState(false)
 
   const emitPlayOnSocket = () => {
@@ -24,7 +24,7 @@ const [currentSong, setCurrentSong] = useState(songs[1])
     // const timeElapsed = radioRef.current.getCurrentTime()
     // const data = { ...currentSong, ...{ timeElapsed } }
     console.log('stopPlayingPublisher', currentSong.id)
-    socket.emit('stopPlayingPublisher', currentSong.id)
+    socket.emit('stopPlayingPublisher')
   }
 
   const volumeChange = () => {
@@ -40,24 +40,25 @@ const [currentSong, setCurrentSong] = useState(songs[1])
   const pausePlayer = () => {
     setPlayState(false)
   }
-  const playListJSX = songs.map(song => (
-    isPublisher ?
-    <PlaylistCard
-      currentSong={currentSong}
-      song={song}
-      isPlaying={playState}
-      playNewSong={playNewSong}
-      pausePlayer={pausePlayer}
-    />
-    : 
-    <SubscriberPlaylistCard
-    currentSong={currentSong}
-    song={song}
-    isPlaying={playState}
-    playNewSong={playNewSong}
-    pausePlayer={pausePlayer}
-  />
-  ))
+  const playListJSX = songs.map(song =>
+    isPublisher ? (
+      <PlaylistCard
+        currentSong={currentSong}
+        song={song}
+        isPlaying={playState}
+        playNewSong={playNewSong}
+        pausePlayer={pausePlayer}
+      />
+    ) : (
+      <SubscriberPlaylistCard
+        currentSong={currentSong}
+        song={song}
+        isPlaying={playState}
+        playNewSong={playNewSong}
+        pausePlayer={pausePlayer}
+      />
+    )
+  )
   return (
     <div className="playlist-container">
       <div className="playlist-header">
@@ -65,19 +66,23 @@ const [currentSong, setCurrentSong] = useState(songs[1])
         <span>{songs.length} songs</span>
       </div>
       <div>{playListJSX}</div>
-      <ReactPlayer
-        playing={playState}
-        url={currentSong ? currentSong.url : ''}
-        id={'radio-player'}
-        controls={true}
-        onPlay={emitPlayOnSocket}
-        onPause={stop}
-        onEnded={stop}
-        pip={true}
-        ref={radioRef}
-        height="124px"
-        width="100%"
-      />
+      {isPublisher ? (
+        <ReactPlayer
+          playing={playState}
+          url={currentSong ? currentSong.url : ''}
+          id={'radio-player'}
+          controls={true}
+          onPlay={emitPlayOnSocket}
+          onPause={stop}
+          onEnded={stop}
+          pip={true}
+          ref={radioRef}
+          height="124px"
+          width="100%"
+        />
+      ) : (
+        ''
+      )}
     </div>
   )
 }

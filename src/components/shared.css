@@ -146,3 +146,13 @@
     padding-left: 40px;
     box-sizing: border-box;
 }
+
+.live-timer-container.subscriber .publisher-icon {
+    display: none;
+}
+
+.live-timer-container.subscriber {
+    width: 70%;
+    margin: 0 auto;
+    padding-left: 0;
+}

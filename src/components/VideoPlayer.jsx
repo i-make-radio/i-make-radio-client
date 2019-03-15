@@ -18,7 +18,6 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
   const [streamVolume, setStreamVolume] = useState(0.25)
 
   useEffect(() => {
-    console.log('rendering useEffect')
     window.addEventListener('beforeunload', unPublishStream)
 
     const config = {
@@ -64,6 +63,8 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
         .catch(err => console.log(err))
   }
   const unPublishStream = () => {
+    socket.emit('stopPlayingPublisher')
+
     rtcPublisher
       .unpublish()
       .then(res => updateStreamState(false))
@@ -76,7 +77,10 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
 
   const sendVolumeChange = () => {
     const musicVolume = Math.abs(1 - streamVolume)
-
+    console.log({
+      streamVolume,
+      musicVolume
+    })
     socket.changeStreamVolume({
       streamVolume,
       musicVolume
@@ -85,8 +89,8 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
 
   const check = (rawValue, props) => {
     const { disabled, step } = props
-    if (rawValue === '10') {
-      rawValue = '1'
+    if (rawValue === 10) {
+      rawValue = 1
     }
     if (disabled) {
       return null
@@ -95,7 +99,7 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
       return Math.round(rawValue / step) * step
     }
 
-    return Number(Number(rawValue).toFixed(3))
+    return Number(rawValue.toFixed(3))
   }
   return (
     <div className="right_column__row_flex__show_info_section">
@@ -135,9 +139,9 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
         <Slider
           aria-labelledby="label"
           value={streamVolume}
-          min="0"
-          max="1"
-          step="0.25"
+          min={0}
+          max={1}
+          step={0.25}
           onChange={handleVolumnSlider}
           onDragEnd={sendVolumeChange}
           valueReducer={check}

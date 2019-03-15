@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
-import './publisher.css'
+import './shared.css'
 
 import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
@@ -80,7 +80,3 @@ const Publisher = () => {
 }
 
 export default Publisher
-
-const logFoo = ev => console.log(ev, 'foo')
-
-const Foo = () => <div onClick={logFoo} />

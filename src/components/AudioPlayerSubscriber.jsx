@@ -1,38 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react'
-import io from 'socket.io-client'
+import socket from './utils/socket'
 import axios from 'axios'
 
 import ReactPlayer from 'react-player'
-
-var socket = io.connect('http://10.10.213.235:8080')
 
 const AudioPlayerSubscriber = () => {
   const radioRef = useRef(null)
 
   const [currentSong, setCurrentSong] = useState(null)
-
+  const [radioVolume, setRadioVolume] = useState(0.2)
   useEffect(() => {
     axios.get('http://10.10.213.235:8080/currentSong').then(res => {
       setCurrentSong(res.data.currentSong)
     })
   }, [])
 
-  socket.on('startPlayingSubscriber', data => {
-    setCurrentSong(data.currentSong)
-  })
+  useEffect(() => {
+    socket.registerPlayingSubscriber(updateCurrentSong)
+    return socket.unregisterPlayingSubscriber
+  }, [])
 
-  socket.on('stopPlayingSubscriber', () => {
+  useEffect(() => {
+    socket.registerStopSubscriber(stopCurrentSong)
+    return socket.unregisterStopSubscriber
+  }, [])
+  useEffect(() => {
+    socket.registerVolumeChanged(onVolumeChangeReceived)
+    return socket.unregisterVolumeChanged
+  }, [])
+
+  const onVolumeChangeReceived = ({ musicVolume }) => {
+    setRadioVolume(musicVolume)
+  }
+  const updateCurrentSong = data => {
+    setCurrentSong(data.currentSong)
+  }
+
+  const stopCurrentSong = () => {
     setCurrentSong(null)
-  })
+  }
 
   const seekToStartTime = () => {
     const elapsedTime = new Date().getTime() / 1000 - currentSong.startTime
     radioRef.current.seekTo(elapsedTime)
   }
   return (
-    <div className="playlist-container">
+    <div className="playlist-container" style={{ display: 'none' }}>
       <ReactPlayer
-        playing={true}
+        playing={!!currentSong}
         url={currentSong ? currentSong.url : ''}
         onStart={seekToStartTime}
         id={'radio-player-reciever'}
@@ -40,7 +55,8 @@ const AudioPlayerSubscriber = () => {
         pip={true}
         ref={radioRef}
         height="124px"
-        width="100%"
+        width="600px"
+        volume={radioVolume}
       />
     </div>
   )
