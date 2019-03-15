@@ -20,7 +20,7 @@ const Publisher = () => {
     })
   }, [])
 
-  const sendMessage = ({ e, chatbox }) => {
+  const sendMessage = ({ e, chatbox, updateSpeechInput = () => {} }) => {
     e.preventDefault()
     const message = chatbox.current.value
 
@@ -30,6 +30,7 @@ const Publisher = () => {
 
     socketClient.message(message)
     chatbox.current.value = ''
+    updateSpeechInput('')
     chatbox.current.focus()
   }
 

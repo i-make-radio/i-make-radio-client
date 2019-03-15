@@ -52,7 +52,7 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
     //   console.log('connection closed', type, publisher, data)
     // })
 
-    return () => rtcPublisher.unpublish()
+    return rtcPublisher.unpublish
   }, [])
 
   const publishStream = () => {
@@ -62,16 +62,16 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
         .then(res => updateStreamState(true))
         .catch(err => console.log(err))
   }
-  const unPublishStream = () => {
-    socket.emit('stopPlayingPublisher')
-
+  const unPublishStream = e => {
+    e.preventDefault()
+    // socket.emit('stopPlayingPublisher')
     rtcPublisher
       .unpublish()
       .then(res => updateStreamState(false))
       .catch(err => console.log(err))
   }
 
-  const handleVolumnSlider = (event, value) => {
+  const handleVolumeSlider = (event, value) => {
     setStreamVolume(value)
   }
 
@@ -142,7 +142,7 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
           min={0}
           max={1}
           step={0.25}
-          onChange={handleVolumnSlider}
+          onChange={handleVolumeSlider}
           onDragEnd={sendVolumeChange}
           valueReducer={check}
         />

@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player'
 
 import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
-const socket = io.connect('http://10.10.213.235:8080')
+const socket = io.connect('http://10.10.210.12:8080')
 
 const Playlist = ({ songs, isPublisher = false }) => {
   const radioRef = useRef(null)

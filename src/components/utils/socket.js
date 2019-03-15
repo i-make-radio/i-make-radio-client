@@ -1,7 +1,7 @@
 const io = require('socket.io-client')
 
 export default (function() {
-  const socket = io.connect('http://10.10.213.235:8080')
+  const socket = io.connect('http://10.10.210.12:8080')
 
   const registerReceivedMessage = onMessageReceived => {
     socket.on('new_message', onMessageReceived)
@@ -12,16 +12,16 @@ export default (function() {
   }
 
   const registerVolumeChanged = onVolumeChangeReceived => {
-    socket.on('volume_changed_subscriber', onVolumeChangeReceived)
+    socket.on('volumeChangeSubscriber', onVolumeChangeReceived)
   }
   const unregisterVolumeChanged = () => {
-    socket.off('volume_changed_subscriber')
+    socket.off('volumeChangeSubscriber')
   }
   const registerstreamVolumeChanged = onVolumeChangeReceived => {
-    socket.on('volume_changed_subscriber', onVolumeChangeReceived)
+    socket.on('volumeChangeSubscriber', onVolumeChangeReceived)
   }
   const unregisterstreamVolumeChanged = () => {
-    socket.off('volume_changed_subscriber')
+    socket.off('volumeChangeSubscriber')
   }
 
   socket.on('error', function(err) {
@@ -43,20 +43,8 @@ export default (function() {
     socket.off('stopPlayingSubscriber')
   }
 
-  //   function register(name, cb) {
-  //     socket.emit('register', name, cb)
-  //   }
-
-  //   function join(chatroomName, cb) {
-  //     socket.emit('join', chatroomName, cb)
-  //   }
-
-  //   function leave(chatroomName, cb) {
-  //     socket.emit('leave', chatroomName, cb)
-  //   }
-
   const changeStreamVolume = data => {
-    socket.emit('volume_changed_publisher', data)
+    socket.emit('volumeChangePublisher', data)
   }
   function message(message) {
     socket.emit('new_message', { message })
@@ -67,9 +55,6 @@ export default (function() {
   }
 
   return {
-    // register,
-    // join,
-    // leave,
     message,
     registerReceivedMessage,
     unregisterReceivedMessage,

@@ -19,7 +19,7 @@ const Subscriber = () => {
     })
   }, [])
 
-  const sendMessage = ({ e, chatbox }) => {
+  const sendMessage = ({ e, chatbox, updateSpeechInput = () => {} }) => {
     e.preventDefault()
     const message = chatbox.current.value
 
@@ -29,6 +29,7 @@ const Subscriber = () => {
 
     socketClient.message(message)
     chatbox.current.value = ''
+    updateSpeechInput('')
     chatbox.current.focus()
   }
 
