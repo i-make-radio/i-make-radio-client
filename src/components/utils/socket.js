@@ -18,6 +18,24 @@ export default (function() {
     socket.off('volume_changed_subscriber')
   }
 
+
+  const registerOnStartPlaying = onStartPlaying => {
+    socket.on('startPlayingSubscriber', onStartPlaying)
+  }
+
+  const unregisterOnStartPlaying = () => {
+    socket.off('startPlayingSubscriber')
+  }
+
+
+  const registerOnStopPlaying = onStopPlaying => {
+    socket.on('stopPlayingSubscriber', onStopPlaying)
+  }
+
+  const unregisterOnStopPlaying = () => {
+    socket.off('stopPlayingSubscriber')
+  }
+
   socket.on('error', function(err) {
     console.log('received socket error:')
     console.log(err)
@@ -68,6 +86,10 @@ export default (function() {
     changeStreamVolume,
     registerVolumeChanged,
     unregisterVolumeChanged,
+    registerOnStartPlaying,
+    unregisterOnStartPlaying,
+    registerOnStopPlaying,
+    unregisterOnStopPlaying,
     changeUserName
   }
 })()

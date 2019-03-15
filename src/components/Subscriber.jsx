@@ -11,14 +11,27 @@ import SubscriberVideoPlayer from './SubscriberVideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 
 const Subscriber = () => {
+  const [currentSong, setCurrentSong] = useState(null)
   const [playlist, updatePlaylist] = useState([])
   const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
-    axios.get('http://10.10.213.235:8080/playedSongs').then(res => {
-      updatePlaylist(res.data)
+    axios.get('http://10.10.213.235:8080/currentSong').then(res => {
+      // debugger
+      setCurrentSong(res.data.currentSong)
+      updatePlaylist(res.data.otherSongs)
     })
   }, [])
+
+  socket.registerOnStartPlaying(data => {
+    // debugger
+    setCurrentSong(data.currentSong)
+    updatePlaylist(data.otherSongs)
+  })
+
+  socket.registerOnStopPlaying(() => {
+    setCurrentSong(null)
+  })
 
   const sendMessage = ({ e, chatbox }) => {
     e.preventDefault()
@@ -34,7 +47,7 @@ const Subscriber = () => {
   }
 
   const changeUserName = ({ e, userRef }) => {
-    debugger
+    // debugger
     e.preventDefault()
 
     const username = userRef.current.value
@@ -45,6 +58,10 @@ const Subscriber = () => {
     userRef.current.value = ''
     userRef.current.focus()
   }
+
+
+  console.log("IN SUBSCRIBER ------ ", currentSong)
+  // debugger
 
   return (
     <div id="main_publisher">
@@ -59,7 +76,7 @@ const Subscriber = () => {
 
           <div id="profile_section_divider" />
 
-          <Playlist songs={playlist} />
+          <Playlist songs={playlist} isPublisher={false} currentSong={currentSong} playState={!!currentSong}/>
         </div>
 
         <div id="right_column">

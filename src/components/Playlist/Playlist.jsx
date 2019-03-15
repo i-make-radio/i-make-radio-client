@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import io from 'socket.io-client'
+import axios from 'axios'
 
 import ReactPlayer from 'react-player'
 
@@ -7,14 +8,12 @@ import PlaylistCard from './PlaylistCard'
 import SubscriberPlaylistCard from './SubscriberPlaylistCard'
 const socket = io.connect('http://10.10.213.235:8080')
 
-const Playlist = ({songs, currentSongId, isPublisher = false}) => {
+const Playlist = ({currentSong, songs, isPublisher, updateCurrentSong, playState, setPlayState}) => {
   const radioRef = useRef(null)
 
-  const [currentSong, setCurrentSong] = useState(songs[1])
-  const [playState, setPlayState] = useState(false)
+  console.log("IN PUBLISHER PLAYLIST", currentSong, "platstate", playState)
 
   const emitPlayOnSocket = () => {
-    console.log('start songs', currentSong)
     const timeElapsed = radioRef.current.getCurrentTime()
     const data = { ...currentSong, ...{ timeElapsed } }
     console.log('startPlayingPublisher', data)
@@ -34,7 +33,7 @@ const Playlist = ({songs, currentSongId, isPublisher = false}) => {
 
   const playNewSong = song => {
     setPlayState(true)
-    setCurrentSong(song)
+    updateCurrentSong(song)
     emitPlayOnSocket()
   }
 
@@ -42,15 +41,7 @@ const Playlist = ({songs, currentSongId, isPublisher = false}) => {
     setPlayState(false)
   }
 
-  if (!isPublisher) {
-    socket.on('startPlayingSubscriber', data => {
-      setCurrentSong(data.currentSong)
-    })
 
-    socket.on('stopPlayingSubscriber', () => {
-      setCurrentSong(null)
-    })
-  }
 
   const playListJSX = songs.map(song => (
     isPublisher ?
@@ -66,8 +57,6 @@ const Playlist = ({songs, currentSongId, isPublisher = false}) => {
     currentSong={currentSong}
     song={song}
     isPlaying={playState}
-    playNewSong={playNewSong}
-    pausePlayer={pausePlayer}
   />
   ))
   return (
