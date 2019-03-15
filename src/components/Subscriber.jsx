@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 import './shared.css'
 import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
@@ -10,7 +9,7 @@ import ChatBox from './ChatBox/ChatBox'
 const Subscriber = () => {
   const [currentSong, setCurrentSong] = useState(null)
   const [playlist, updatePlaylist] = useState([])
-  const [socketClient, updateSocketClient] = useState(socket)
+  const [socketClient] = useState(socket)
 
   useEffect(() => {
     axios.get('http://10.10.210.12:8080/currentSong').then(res => {
@@ -32,7 +31,7 @@ const Subscriber = () => {
     e.preventDefault()
     const message = chatbox.current.value
 
-    if (message.length == 0) {
+    if (message.length === 0) {
       return
     }
 
@@ -46,7 +45,7 @@ const Subscriber = () => {
     e.preventDefault()
 
     const username = userRef.current.value
-    if (username.length == 0) {
+    if (username.length === 0) {
       return
     }
     socketClient.changeUserName(username)

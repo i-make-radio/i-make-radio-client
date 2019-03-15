@@ -119,21 +119,22 @@ const VideoPlayer = memo(({ updateStreamState, streamState }) => {
         <p className="live_shows__listeners_count">726 listeners</p>
         <div className="live-timer-container">
           <img
+            alt="stream live icon"
             src={liveiconUrl}
             style={{ visibility: streamState ? 'visible' : 'hidden' }}
           />
 
           <p className="live_shows__elasped_time">3:24:48</p>
-          <IconButton>
-            {!streamState ? (
-              <PowerSettingIcon
-                onClick={publishStream}
-                className="publisher-icon"
-              />
-            ) : (
-              <StopIcon onClick={unPublishStream} className="publisher-icon" />
-            )}
-          </IconButton>
+
+          {!streamState ? (
+            <IconButton onClick={publishStream}>
+              <PowerSettingIcon className="publisher-icon" />
+            </IconButton>
+          ) : (
+            <IconButton onClick={unPublishStream}>
+              <StopIcon className="publisher-icon" />
+            </IconButton>
+          )}
         </div>
         <div className="slider-container">
           <span className="slider-label">Music</span>

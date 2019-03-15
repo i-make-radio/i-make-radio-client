@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import PropTypes from 'prop-types'
-
-import './shared.css'
 
 import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
@@ -10,11 +7,13 @@ import VideoPlayer from './VideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 import NameFormDialog from './Dialogs/NameFormDialog'
 
+import './shared.css'
+
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
   const [currentSong, updateCurrentSong] = useState(null)
   const [playState, setPlayState] = useState(false)
-  const [socketClient, updateSocketClient] = useState(socket)
+  const [socketClient] = useState(socket)
   const [streamAlive, updateStreamState] = useState(false)
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const Publisher = () => {
     e.preventDefault()
     const message = chatbox.current.value
 
-    if (message.length == 0) {
+    if (message.length === 0) {
       return
     }
 
@@ -42,7 +41,7 @@ const Publisher = () => {
     e.preventDefault()
 
     const username = userRef.current.value
-    if (username.length == 0) {
+    if (username.length === 0) {
       return
     }
     socketClient.changeUserName(username)
@@ -66,7 +65,6 @@ const Publisher = () => {
 
           <Playlist
             songs={playlist}
-            playState
             isPublisher
             currentSong={currentSong}
             updateCurrentSong={updateCurrentSong}
@@ -80,7 +78,7 @@ const Publisher = () => {
             updateStreamState={updateStreamState}
             streamState={streamAlive}
           />
-          <div className="publisher_music_controller"/>
+          <div className="publisher_music_controller" />
           <ChatBox
             registerReceivedMessage={socketClient.registerReceivedMessage}
             sendMessage={sendMessage}

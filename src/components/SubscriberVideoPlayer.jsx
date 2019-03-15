@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 import liveiconUrl from './icon/LIVE.svg'
 import AudioPlayerSubscriber from './AudioPlayerSubscriber'
 
@@ -66,9 +65,7 @@ const SubscriberVideoPlayer = props => {
   }
 
   const onVolumeChangeReceived = ({ streamVolume, musicVolume }) => {
-    console.log(streamVolume, musicVolume)
     videoPlayerRef.current.volume = streamVolume
-    console.log(videoPlayerRef.current.volume)
   }
   return (
     <div className="right_column__row_flex__show_info_section">
@@ -86,6 +83,7 @@ const SubscriberVideoPlayer = props => {
         <p className="live_shows__listeners_count">726 listeners</p>
         <div className="subscriber live-timer-container">
           <img
+            alt="live icon"
             src={liveiconUrl}
             style={{ visibility: streamAlive ? 'visible' : 'hidden' }}
           />
