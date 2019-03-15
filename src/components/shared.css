@@ -65,9 +65,12 @@
     height: 30vh;
     margin: 0px 50px 0px 50px;
 }
+.subscriber_container .right_column__row_flex__show_info_section {
+    height: 38vh;
+}
 
 .video_player_container {
-    width: 650px;
+    width: 550px;
 }
 
 .live_shows__column_flex {
@@ -91,10 +94,19 @@
 
 .publisher_music_controller {
     height: 8vh;
-    background: linear-gradient(175.23deg, #FD15D7 -14.27%, #F2994A 113.86%);
-    opacity: 0.1;
+    background: linear-gradient(172.58deg, #452f4f -14.27%, #4c3d48 113.86%);
+    color: white;
+    display: flex; 
+    padding-left: 40px;
+    align-items: center;
+
 }
 
+.controller-label{
+   font-family: Roboto; 
+   font-size: 20px; 
+   margin-right: 25px;
+}
 .chatbox_container {
     background: #282735;
     height: 100%;

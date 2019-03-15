@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 
 import './shared.css'
 
@@ -9,6 +8,7 @@ import Playlist from './Playlist/Playlist'
 import VideoPlayer from './VideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 import NameFormDialog from './Dialogs/NameFormDialog'
+
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
@@ -59,7 +59,7 @@ const Publisher = () => {
             <div className="profile_empty_spacer" />
             <div className="profile_image" />
             {/* <p className="profile_title">Profile</p> */}
-            {/* <NameFormDialog className="profile_title"/> */}
+            <NameFormDialog className="profile-name-button"/>
           </div>
 
           <div className="profile_section_divider" />
@@ -80,7 +80,19 @@ const Publisher = () => {
             updateStreamState={updateStreamState}
             streamState={streamAlive}
           />
-          <div className="publisher_music_controller"/>
+          <div className="publisher_music_controller">
+          {currentSong ? 
+          <Fragment>
+            <h3 className="controller-label">
+              Currently playing: 
+            </h3>
+            <div className="song-info">
+              <p className="song-row-title">{currentSong.name}</p>
+              <p className="song-row-artist">{currentSong.artist}</p>
+            </div>
+      </Fragment> : ''}
+
+          </div>
           <ChatBox
             registerReceivedMessage={socketClient.registerReceivedMessage}
             sendMessage={sendMessage}
