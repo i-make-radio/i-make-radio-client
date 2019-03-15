@@ -6,7 +6,7 @@ const SubscriberPlaylistCard = ({
   isPlaying,
   song: { artist, id, name, length },
   currentSong
-}) => {  
+}) => {
   const isSongPlaying = () => !!currentSong && currentSong.id == id && isPlaying
 
   const formatDuration = time => {
@@ -21,8 +21,8 @@ const SubscriberPlaylistCard = ({
       <span className="song-id">{id}</span>
       <span className="song-duration">{formatDuration(length)}</span>
       <div className="song-info">
-        <p>{name}</p>
-        <p>{artist}</p>
+        <p className="song-row-title">{name}</p>
+        <p className="song-row-artist">{artist}</p>
       </div>
     </div>
   )

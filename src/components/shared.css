@@ -18,6 +18,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .left_column_profile_section {
@@ -61,13 +62,12 @@
 .right_column__row_flex__show_info_section {
     display: flex;
     align-items: center;
-    height: 50vh;
+    height: 30vh;
     margin: 0px 50px 0px 50px;
 }
 
 .video_player_container {
-    width: 448px;
-    height: 252px;
+    width: 650px;
 }
 
 .live_shows__column_flex {
@@ -87,6 +87,12 @@
 
 .live_shows__bottom_spacer {
     height: 25px;
+}
+
+.publisher_music_controller {
+    height: 8vh;
+    background: linear-gradient(175.23deg, #FD15D7 -14.27%, #F2994A 113.86%);
+    opacity: 0.1;
 }
 
 .chatbox_container {
@@ -177,4 +183,31 @@
     color: white;
     font-size: 14px;
     opacity: 0.72;
+
+}
+
+.song-row-title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: normal;
+    
+    color: #FFFFFF;    
+}
+
+.song-row-artist {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: normal;
+    
+    color: rgba(255, 255, 255, 0.72);
+    
+    opacity: 0.75;
+}
+
+.profile-name-button {
+    text-emphasis-color: #FD15D7;
 }

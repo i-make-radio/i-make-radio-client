@@ -8,6 +8,7 @@ import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
 import VideoPlayer from './VideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
+import NameFormDialog from './Dialogs/NameFormDialog'
 
 const Publisher = () => {
   const [playlist, updatePlaylist] = useState([])
@@ -57,7 +58,8 @@ const Publisher = () => {
             <div className="profile_top_left_menu" />
             <div className="profile_empty_spacer" />
             <div className="profile_image" />
-            <p className="profile_title">Profile</p>
+            {/* <p className="profile_title">Profile</p> */}
+            {/* <NameFormDialog className="profile_title"/> */}
           </div>
 
           <div className="profile_section_divider" />
@@ -78,6 +80,7 @@ const Publisher = () => {
             updateStreamState={updateStreamState}
             streamState={streamAlive}
           />
+          <div className="publisher_music_controller"/>
           <ChatBox
             registerReceivedMessage={socketClient.registerReceivedMessage}
             sendMessage={sendMessage}

@@ -30,8 +30,8 @@ const PlaylistCard = ({
       <span className="song-id">{id}</span>
       <span className="song-duration">{formatDuration(length)}</span>
       <div className="song-info">
-        <p>{name}</p>
-        <p>{artist}</p>
+        <p className="song-row-title">{name}</p>
+        <p className="song-row-artist">{artist}</p>
       </div>
       <IconButton aria-label="Play/pause" className="song-icon">
         {isSongPlaying() ? (
