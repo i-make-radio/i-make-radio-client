@@ -45,6 +45,7 @@ input {
 
 #message_form {
     display: flex;
+    margin-bottom: 20px;
 }
 
 #message_input_box {
