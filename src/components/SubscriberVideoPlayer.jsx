@@ -18,7 +18,7 @@ const SubscriberVideoPlayer = props => {
     window.addEventListener('beforeunload', unsubscribe)
     const config = {
       protocol: 'ws',
-      host: '35.182.68.158',
+      host: '10.10.210.12',
       port: 5080,
       app: 'live',
       streamName: 'mystream',
