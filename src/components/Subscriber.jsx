@@ -3,21 +3,34 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import './shared.css'
-
+import './publisher.css'
 import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
 import SubscriberVideoPlayer from './SubscriberVideoPlayer'
 import ChatBox from './ChatBox/ChatBox'
 
 const Subscriber = () => {
+  const [currentSong, setCurrentSong] = useState(null)
   const [playlist, updatePlaylist] = useState([])
   const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
-    axios.get('http://10.10.213.235:8080/playedSongs').then(res => {
-      updatePlaylist(res.data)
+    axios.get('http://10.10.213.235:8080/currentSong').then(res => {
+      // debugger
+      setCurrentSong(res.data.currentSong)
+      updatePlaylist(res.data.otherSongs)
     })
   }, [])
+
+  socket.registerOnStartPlaying(data => {
+    // debugger
+    setCurrentSong(data.currentSong)
+    updatePlaylist(data.otherSongs)
+  })
+
+  socket.registerOnStopPlaying(() => {
+    setCurrentSong(null)
+  })
 
   const sendMessage = ({ e, chatbox }) => {
     e.preventDefault()
@@ -57,7 +70,7 @@ const Subscriber = () => {
 
           <div className="profile_section_divider" />
 
-          <Playlist songs={playlist} />
+          <Playlist songs={playlist} isPublisher={false} currentSong={currentSong} playState={!!currentSong}/>
         </div>
 
         <div className="right_column">
