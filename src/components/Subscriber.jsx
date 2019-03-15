@@ -1,45 +1,9 @@
-  // componentDidMount() {
-  //   console.log('rendering subscriber')
-  //   const red5prosdk = window.red5prosdk
-
-  //   this.rtcSubscriber = new red5prosdk.RTCSubscriber()
-  //   var config = {
-  //     protocol: 'ws',
-  //     host: '35.182.68.158',
-  //     port: 5080,
-  //     app: 'live',
-  //     streamName: 'mystream',
-  //     rtcConfiguration: {
-  //       iceServers: [{ urls: 'stun:stun2.l.google.com:19302' }],
-  //       iceCandidatePoolSize: 2,
-  //       bundlePolicy: 'max-bundle'
-  //     } // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#RTCConfiguration_dictionary
-  //   }
-  //   this.initializeStream = this.rtcSubscriber
-  //     .init(config)
-  //     .then(() => this.rtcSubscriber.subscribe())
-  //     .catch(err => {
-  //       console.log('Could not play: ' + err)
-  //       return false
-  //     })
-
-  //   console.log(this.rtcSubscriber)
-  // }
-  // subscribeVideo = () => {
-  //   if (this.initializeStream) {
-  //     console.log('playing subscription')
-  //     return this.rtcSubscriber.subscribe()
-  //   }
-  // }
-  // componentWillUnmount() {
-  //   this.rtcSubscriber.unsubscribe()
-  // }
-
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import './publisher.css'
+import io from 'socket.io-client'
 
 import socket from './utils/socket'
 import Playlist from './Playlist/Playlist'
@@ -51,7 +15,6 @@ const Subscriber = () => {
   const [socketClient, updateSocketClient] = useState(socket)
 
   useEffect(() => {
-    console.log("in subscriber!!!!")
     axios.get('http://10.10.213.235:8080/playedSongs').then(res => {
       updatePlaylist(res.data)
     })
