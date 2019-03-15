@@ -38,6 +38,7 @@ const ChatBox = ({ sendMessage, registerReceivedMessage }) => {
     const result = e.results[0][0].transcript
     updateSpeechInput(result)
     sendMessage({ e, chatbox: chatBoxInputRef, updateSpeechInput })
+    recognition.stop()
   }
 
   const chatboxContentJSX = messages.map((message, i) => (
