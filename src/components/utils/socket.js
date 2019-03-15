@@ -74,7 +74,7 @@ export default (function() {
   //   }
 
   const changeStreamVolume = data => {
-    socket.emit('volume_changed_publisher', data)
+    socket.emit('volumeChangePublisher', data)
   }
   function message(message) {
     socket.emit('new_message', { message })

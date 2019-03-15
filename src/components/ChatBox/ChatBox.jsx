@@ -20,6 +20,9 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
     // I don't know how I didn't see this all straight.
     // updateMessages([...messages, newMessage])
     updateMessages(actualMessages => [...actualMessages, newMessage])
+
+    var element = document.getElementById("chat_messages_container");
+    element.scrollTop = element.scrollHeight;
   }
 
   const chatboxContentJSX = messages.map((message, i) => (
@@ -54,6 +57,7 @@ const ChatBox = ({ changeUserName, sendMessage, registerReceivedMessage }) => {
           aria-label="message input"
           ref={chatBoxInputRef}
         />
+        
         <button id="send_message_button" type="submit">
           SEND
         </button>
